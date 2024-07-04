@@ -1,4 +1,4 @@
-//import "./App.css";
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SharedLayout from "./components/ShareLayout";
 import Mainfeed from "./components/Mainfeed";
@@ -18,6 +18,7 @@ import Forgotpasswordpage from "./pages/Forgotpasswordpage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Web3 from "./dapp/Web3";
+import AuthRoute from "./HOC/AuthRoute";
 
 function App() {
   return (
@@ -26,28 +27,24 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SharedLayout />}>
-            <Route index element={<Mainfeed />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/education" element={<Education />} />
-            <Route path="/happeningnow" element={<Happeningnow />} />
-            <Route path="/disaX" element={<DisaX />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/:postId/comments" element={<Comment type="comment" />} />
-            <Route path="/post/:postId/subcomments" element={<Comment type="subcomment" />} />
-            <Route path="/createpost" element={<Createpost />} />
-            <Route path="/:postId/comment" element={<Createcomment />} />
+            <Route index element={<AuthRoute element={<Mainfeed />} />} />
+            <Route path="/community" element={<AuthRoute element={<Community />} />} />
+            <Route path="/education" element={<AuthRoute element={<Education />} />} />
+            <Route path="/happeningnow" element={<AuthRoute element={<Happeningnow />} />} />
+            <Route path="/disaX" element={<AuthRoute element={<DisaX />} />} />
+            <Route path="/profile" element={<AuthRoute element={<Profile />} />} />
+            <Route path="/:postId/comments" element={<AuthRoute element={<Comment type="comment" />} />} />
+            <Route path="/post/:postId/subcomments" element={<AuthRoute element={<Comment type="subcomment" />} />} />
+            <Route path="/createpost" element={<AuthRoute element={<Createpost />} />} />
+            <Route path="/:postId/comment" element={<AuthRoute element={<Createcomment />} />} />
           </Route>
 
-          <Route path="/:userId/disaX" element={<DisaXBot />} />
+          <Route path="/:userId/disaX" element={<AuthRoute element={<DisaXBot />} />} />
           <Route path="/signup" element={<Signuppage />} />
-          <Route
-            path="/register/verify/:userToken"
-            element={<Emailconfirmation />}
-          />
+          <Route path="/register/verify/:userToken" element={<Emailconfirmation />} />
           <Route path="/login" element={<Loginpage />} />
           <Route path="/forgotpassword" element={<Forgotpasswordpage />} />
-          <Route path="/wallet" element={<Web3/>}>
-          </Route>
+          <Route path="/wallet" element={<AuthRoute element={<Web3 />} />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -8,7 +8,10 @@ import { FaDonate } from "react-icons/fa";
 
 
 const Menu = () => {
-  const user = JSON.parse(Cookies.get("user"));
+  // const user = JSON.parse(Cookies.get("user"));
+  const user = {
+    "name": "Abdul",
+  }
   const [isModalOpen, setIsModalopen] = useState(false)
 
   return (

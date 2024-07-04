@@ -12,43 +12,44 @@ import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+
 
 const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
-  const [isSave, setIsSave] = useState(false);
+  // const [isSave, setIsSave] = useState(false);
   const [page, setPage] = useState("");
   const [isModal, setIsModal] = useState(true);
 
-  useEffect(() => {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-      "X-CSRFToken": `${Cookies.get("csrftoken")}`,
-    };
-    let url = category
-      ? `${BACKENDURL}/api/${type}/?category=${category}`
-      : `${BACKENDURL}/api/${type}/`;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${accessToken}`,
+    "X-CSRFToken": `${Cookies.get("csrftoken")}`,
+  };
+  let url = category
+    ? `${BACKENDURL}/api/${type}/?category=${category}`
+    : `${BACKENDURL}/api/${type}/`;
 
-    if (type !== "post") {
-      url = `${BACKENDURL}/api/${type}/?post=${postId}`;
-    }
-    const fetchPosts = async () => {
-      await axios
-        .get(url, {
-          headers: headers,
-          withCredentials: true,
-        })
-        .then((res) => {
-          setPosts(res.data);
-          return res.data;
-        })
-        .catch((err) => console.log(err.message));
-    };
-    fetchPosts();
-  }, [category, accessToken, BACKENDURL, type, postId]);
+  if (type !== "post") {
+    url = `${BACKENDURL}/api/${type}/?post=${postId}`;
+  }
+  const fetchPosts = async () => {
+    await axios
+      .get(url, {
+        headers: headers,
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        setPosts(res.data);
+        return res.data;
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   const handlePostClick = (selectedPost) => {
     // Navigate to the comment page and pass the post data
@@ -65,11 +66,6 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
     }
   };
 
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`,
-    "X-CSRFToken": `${Cookies.get("csrftoken")}`,
-  };
 
   const likePost = async (postId) => {
     try {
@@ -179,7 +175,18 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
     }
   };
 
-  console.log(isModal);
+  const { isPending, error, data, isFetching } = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts
+  })
+
+  if (isPending) { toast.info("Fetching Posts...", {
+    autoClose: 500,
+  });
+}
+
+  if (error)  toast.error('An error fetching posts')
+
 
   return (
     <div className="py-3">

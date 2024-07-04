@@ -20,8 +20,9 @@ const Profile = () => {
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
 
-  useEffect(() => {
-    async () => {
+  const { isPending, error, data, isFetching } = useQuery({
+    queryKey: ['posts'],
+    queryFn: async () => {
       try {
         const res = await axios.get(`${backendUrl}/api/user/me`, {
           headers: headers,
@@ -32,8 +33,17 @@ const Profile = () => {
       } catch (error) {
         console.log(error.message);
       }
-    };
+    }
+  })
+
+  if (isPending) { toast.info("Fetching Profile...", {
+    autoClose: 500,
   });
+}
+
+  if (error)  toast.error('An error fetching profile')
+
+
 
   return (
     <div className="text-2xl text-center pt-1 md:pt-5  ">

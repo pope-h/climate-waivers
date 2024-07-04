@@ -2,7 +2,10 @@ import Menu from "./Menu";
 import Cookies from "js-cookie";
 
 const Leftsidebar = () => {
-  const user = JSON.parse(Cookies.get("user"));
+  // const user = JSON.parse(Cookies.get("user"));
+  const user = {
+    "name": "Abdul",
+  }
   console.log(user);
 
   return (
