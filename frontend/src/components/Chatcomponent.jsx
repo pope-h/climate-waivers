@@ -76,13 +76,13 @@ const Chatcomponent = () => {
           <div key={index}>{message}</div>
         ))}
       </div>
-      <div className="bg-graylight p-1 mx-5 md:p-2 border-2 border-graydark  rounded-full flex flex-row items-center ">
+      <div className="bg-graylight p-1 mx-5 md:p-2 border-2 border-gray-500  rounded-full flex flex-row items-center ">
         <input
-          className="justify-self-end ] w-[80%] focus:outline-0 focus:bg-gray-200 focus:rounded-full p-2 text-black "
+          className="justify-self-end w-[80%] focus:outline-0 focus:bg-gray-200 rounded-full p-2 text-black "
           value={textValue}
           onChange={(e) => setTextValue(e.target.value)}
           type="text"
-          placeholder="Ask disaX a question."
+          placeholder="Ask waverX a question."
         />{" "}
         <AiOutlineSend
           size={25}

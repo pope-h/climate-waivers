@@ -71,7 +71,7 @@ const Accountcard = ({ user }) => {
         // style={followStyle}
         className={`bg-purple-500 text-xs text-white font-semibold py-2 px-3 ml-2  rounded-xl ${
           isFollow &&
-          "bg-stone-100 outline outline-3 outline-stone-900 !text-slate-700 before:hover:content-['']  hover:bg-green-100 hover:outline hover:outline-3 hover:outline-black-500 hover:text-black-500 "
+          "bg-stone-100 outline outline-2 outline-stone-500 !text-slate-700 before:hover:content-['']  hover:bg-green-100 hover:outline hover:outline-3 hover:outline-black-500 hover:text-black-500 "
         } `}
       >
         {isFollow === true ? "Following" : "Follow"}

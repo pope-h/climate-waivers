@@ -8,10 +8,8 @@ import { FaDonate } from "react-icons/fa";
 
 
 const Menu = () => {
-  // const user = JSON.parse(Cookies.get("user"));
-  const user = {
-    "name": "Abdul",
-  }
+  const user = JSON.parse(Cookies.get("user"));
+
   const [isModalOpen, setIsModalopen] = useState(false)
 
   return (
@@ -49,7 +47,7 @@ const Menu = () => {
           }
         >
           <BsRobot className="mr-1" />
-          DisaX
+          WaverX
         </NavLink>
         <NavLink
           to={"/profile"}
@@ -81,13 +79,13 @@ const Menu = () => {
           }
         >
           <FaDonate className="mr-1" />
-          Wallet
+          Funds
         </NavLink>
       </div>
       {/* Post btn */}
       <Link
         // to={"./createpost"}
-        className="text-xl text-center font-semibold bg-white text-black shadow-md shadow-white  hover:from-fuchsia-600 hover:to-purple-700 p-3 rounded-full"
+        className="text-xl text-center font-semibold bg-[#008080] text-black shadow-md shadow-gray-500  hover:from-fuchsia-600 hover:to-purple-700 p-3 rounded-full"
         onClick={() => setIsModalopen(true)}
       >
         Post

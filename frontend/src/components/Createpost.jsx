@@ -105,7 +105,7 @@ export default function Createpost() {
     );
     // Reset the form after submission
     reset();
-    navigate(-1)
+    navigate("/")
   };
 
 
@@ -139,11 +139,11 @@ export default function Createpost() {
       <div className=" flex justify-between items-center ">
         <input
         type="file"
-        className="  p-0 mb-3 border rounded focus:border-green focus:outline-none"
+        className="  p-0 mb-1 border rounded focus:border-green focus:outline-none"
         {...register("image", { required: false })}
         />
         <button
-          className="px-10 py-1 bg-linear text-white rounded-full cursor-pointer z-10"
+          className="px-10 py-1 mx-1 bg-linear text-white rounded-lg cursor-pointer z-10"
           type="submit"
         >
           Post

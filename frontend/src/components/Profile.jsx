@@ -99,7 +99,7 @@ const Profile = () => {
         <div className="text-white flex flex-row justify-center text-base gap-8 border-0 border-b-[1px] border-gray-500 ">
           <h2
             className={`cursor-pointer ${
-              category === "reports" ? "border-b-[2px] border-green-300" : null
+              category === "reports" ? "border-b-[2px] border-[#008080]" : null
             } `}
             onClick={() => {
               setCategory("reports");
@@ -110,7 +110,7 @@ const Profile = () => {
           <h2
             className={`cursor-pointer ${
               category === "education"
-                ? "border-b-[2px] border-green-300"
+                ? "border-b-[2px] border-[#008080]"
                 : null
             } `}
             onClick={() => {
@@ -122,7 +122,7 @@ const Profile = () => {
           <h2
             className={`cursor-pointer ${
               category === "community"
-                ? "border-b-[2px] border-green-300"
+                ? "border-b-[2px] border-[#008080]"
                 : null
             } `}
             onClick={() => {

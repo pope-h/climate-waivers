@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Accountcard from "./Accountcard";
 import { AiFillHeart } from "react-icons/ai";
-import { FaDonate } from "react-icons/fa";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { PiBookmarkFill } from "react-icons/pi";
 import { TbLineDashed } from "react-icons/tb";
@@ -10,25 +9,36 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
-import Modal from "./Modal";
-import Createcomment from "./Createcomment";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import Wallet from "./Wallet";
+import { FaDonate } from "react-icons/fa";
+import Modal from "./Modal";
+import Createcomment from "./Createcomment";
 
 const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
   const navigate = useNavigate();
-  const [page, setPage] = useState("");
-  const [isModal, setIsModal] = useState(true);
+  // const [page, setPage] = useState("");
+  const [savedAddress, setSavedAddress] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalopen] = useState(false);
 
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const walletAddress = localStorage.getItem("walletAddress");
+    if (walletAddress) setSavedAddress(walletAddress);
+    setLoading(false);
+  }, []);
 
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
+
   let url = category
     ? `${BACKENDURL}/api/${type}/?category=${category}`
     : `${BACKENDURL}/api/${type}/`;
@@ -36,18 +46,18 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   if (type !== "post") {
     url = `${BACKENDURL}/api/${type}/?post=${postId}`;
   }
+
   const fetchPosts = async () => {
     const res = await axios.get(url, {
       headers: headers,
       withCredentials: true,
     });
-    console.log(res.data)
     return res.data;
   };
 
   const {
     data: posts,
-    isLoading,
+    isLoading: postsLoading,
     error,
   } = useQuery({
     queryKey: ["posts", category],
@@ -102,22 +112,26 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
     },
   });
 
-  const handlePostClick = (selectedPost) => {
-    navigate(`/${selectedPost.id}/comments`, {
-      state: { postData: selectedPost, category: category },
-    });
-  };
+  // const handlePostClick = (selectedPost) => {
+  //   navigate(`/${selectedPost.id}/comments`, {
+  //     state: { postData: selectedPost, category: category },
+  //   });
+  // };
 
-  const commentPage = (postId) => {
+  const commentPage = (post) => {
     if (type === "subcomment") {
-      setPage(`/post/${postId}/subcomments`);
+      navigate(`/post/${post.id}/subcomments`, {
+        state: { post: post, category: category },
+      });
     } else {
-      setPage(`/${postId}/comments`);
+      navigate(`/${post.id}/comments`, {
+        state: { post: post, category: category },
+      });
     }
   };
 
   useEffect(() => {
-    if (isLoading) {
+    if (postsLoading) {
       toast.dismiss();
       toast.info("Fetching Posts...", {
         autoClose: 500,
@@ -128,20 +142,23 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
       toast.dismiss();
       toast.error("An error occurred while fetching posts");
     }
+  }, [postsLoading, posts, error]);
 
-
-  }, [isLoading, posts, error]);
+  if (loading) {
+    return "";
+  }
 
   return (
     <div className="py-3">
+      {!savedAddress && <Wallet />}
       {posts?.map((post, index) => (
         <div key={index} className="border-b-[1px] border-gray-700 py-4">
           <Accountcard user={post.user} />
-          <div onClick={() => handlePostClick(post)}>
+          <div onClick={() => commentPage(post)}>
             <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
             <img
               className="w-[100%] px-3 "
-              src={`${BACKENDURL}/api/${post.image}`}
+              src={post?.image ? `${BACKENDURL}/api/${post.image}`: "../../postpic.png"}
               alt=""
             />
           </div>
@@ -157,44 +174,19 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
               <AiFillHeart size={18} color={post.is_liked ? "#e01616" : ""} />
               <p className="text-xs ml-1 ">{post.likers_count}</p>
             </div>
-            <div
-              className="flex flex-row items-center "
-              onClick={() => setIsModal(true)}
-            >
-              {isModal && (
-                <Modal closeFn={() => setIsModal(false)}>
-                  <div className="flex flex-col text-base place-self-center shadow-sm  ">
-                    <h2 className="text-xl font-bold text-left  ">
-                      Welcome to DisaXta Wallet 👋🏽
-                    </h2>
-                    <p className="w-80 py-3 text-left  ">
-                      Connect your digital wallet to support disaster relief
-                      efforts! Your contribution can make a meaningful impact.
-                      Click below to connect your wallet and donate and receive funds
-                      securely.
-                    </p>
-                    <Link to="../wallet">
-                      <button className="bg-linear px-4 py-2 rounded-full text-base  text-white self-end ">
-                        Connect wallet
-                      </button>
-                    </Link>
-                  </div>
-                </Modal>
-              )}
-
+            <div className="flex flex-row items-center">
               <FaDonate size={18} />
               <p className="text-xs ml-1 ">{post.comments_count}</p>
             </div>
-            <Link to={page}>
+            <Link onClick={() => setIsModalopen(true)}>
               <div
                 className="flex flex-row items-center  "
-                onClick={() => commentPage(post.id)}
+                onClick={() => setIsModalopen(true)}
               >
                 <IoChatboxEllipses size={18} />
                 <p className="text-xs ml-1 ">{post.comments_count}</p>
               </div>
             </Link>
-
             <div
               className="flex flex-row items-center"
               onClick={() => {
@@ -215,6 +207,11 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
           </div>
         </div>
       ))}
+      {isModalOpen && (
+              <Modal closeFn={() => setIsModalopen(false)}>
+                <Createcomment />
+              </Modal>
+            )}
     </div>
   );
 };

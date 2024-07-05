@@ -52,7 +52,7 @@ const Communityselector = () => {
         }
         to={"/disaX"}
       >
-        DisaX
+        WaverX
       </NavLink>
     </div>
   );

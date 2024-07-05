@@ -17,7 +17,7 @@ import Loginpage from "./pages/LoginPage";
 import Forgotpasswordpage from "./pages/Forgotpasswordpage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Web3 from "./dapp/Web3";
+// import Web3 from "./dapp/Web3";
 import AuthRoute from "./HOC/AuthRoute";
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
           <Route path="/register/verify/:userToken" element={<Emailconfirmation />} />
           <Route path="/login" element={<Loginpage />} />
           <Route path="/forgotpassword" element={<Forgotpasswordpage />} />
-          <Route path="/wallet" element={<AuthRoute element={<Web3 />} />} />
+          {/* <Route path="/wallet" element={<AuthRoute element={<Web3 />} />} /> */}
         </Routes>
       </BrowserRouter>
     </div>
