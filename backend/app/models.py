@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django_extensions.db.models import TimeStampedModel
 import bcrypt
 import uuid
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -56,7 +57,7 @@ class User(AbstractUser):
         return self.username
 
     class Meta:
-        db_table = 'user'
+        db_table = "user"
 
 
 # Post model for user-generated posts
@@ -113,7 +114,7 @@ class Comment(TimeStampedModel):
     content = models.TextField(max_length=90)
     likers = models.ManyToManyField(User, related_name="liked_comments", blank=True)
     savers = models.ManyToManyField(User, related_name="saved_comments", blank=True)
-    
+
     def like_comment(self, user):
         self.likers.add(user)
 
@@ -136,15 +137,19 @@ class Follower(TimeStampedModel):
 
     def __str__(self):
         return f"{self.user}"
-    
+
     class Meta:
         ordering = ["-created_at"]  # Order followers by creation date (latest first)
-
 
 
 class Token(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="token")
     is_valid = models.BooleanField(default=False)
     token = models.CharField(max_length=255, default=uuid.uuid4)
+
     def __str__(self):
         return self.token
+
+    def is_expired(self):
+        expiration_time = self.created_at + timezone.timedelta(hours=24)
+        return timezone.now() > expiration_time

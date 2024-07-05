@@ -11,7 +11,7 @@ const CommentPost = ({ post }) => {
     <div className=" py-3">
       <Accountcard user={post.user}/>
 
-      <div className="border-b border-gray-300 py-4">
+      <div className="border-b border-gray-600 py-4">
         <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
         <img className="w-[100%] px-3 " src={`${post.image}`} alt="" />
         <div className="flex flex-row justify-between px-3 mt-2 ">

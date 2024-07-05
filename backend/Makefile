@@ -4,7 +4,7 @@ LOCAL_DOCKER_OPTIONS= -f docker-compose.yml
 
 
 up:
-	docker-compose  $(LOCAL_DOCKER_OPTIONS) up -d
+	docker compose  $(LOCAL_DOCKER_OPTIONS) up -d
 
 down:
 	docker-compose $(LOCAL_DOCKER_OPTIONS) down

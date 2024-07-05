@@ -9,7 +9,7 @@ const Leftsidebar = () => {
   console.log(user);
 
   return (
-    <div className=" border-r-[1px] border-gray-500 hidden md:block pt-5 ">
+    <div className=" border-r-[1px] border-gray-700 hidden md:block pt-5 ">
       {/* Logo */}
       <div className=" flex gap-3 items-center justify-self-center md:justify-self-start ">
         <div className="w-[70px]">

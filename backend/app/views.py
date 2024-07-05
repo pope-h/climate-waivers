@@ -49,6 +49,8 @@ class UserViewSet(
             return UserCreateSerializer
         elif self.action in ["reset_password"]:
             return PasswordResetSerializer
+        elif self.action == "check_token":
+            return TokenVerifySerializer
         return UserSerializer
 
     def get_queryset(self):
@@ -113,14 +115,15 @@ class UserViewSet(
             # send_reset_password_email(user.pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(["post"], detail=False, url_path="check-token", url_name="check-token")
+    @action(["post"], detail=False, url_path="check-token", url_name="check-token", permission_classes=(AllowAny,))
     @extend_schema(description="Check the validity of the provided token.")
     def check_token(self, request, *args, **kwargs):
         """
         This method checks the validity of the provided token.
         """
-        TokenVerifySerializer(data=request.data).is_valid(raise_exception=True)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class PostViewset(ModelViewSet):

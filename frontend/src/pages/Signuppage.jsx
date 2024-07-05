@@ -20,7 +20,7 @@ const Signuppage = () => {
       <div className="grid signup  md:grid-cols-[3fr_4fr] grid-cols-[1fr] bg-gradient-to-r from-slate-900 to-slate-700  items-center text-black ">
         <div  className=" bg-radial2  grid place-content-center h-[80vh] md:h-[100vh] banner ">
           <div className="writeup">
-          <h1>Climate waivers</h1>
+          <h1>Climate Wavers</h1>
           <p>Join our community to harness the power of AI, social good, and crowdfunding to mitigate the effects of natural disasters. Together, we can provide timely relief and support for the future of our society</p>
 
           </div>
@@ -44,7 +44,7 @@ const Signuppage = () => {
                 </div>
               </a> */}
               <div className="social-wrapper flex flex-row gap-6 items-center  p-4 justify-center  py-1 ">
-                <a href={`${oauthUrl}/api/v1/auth/github`} >
+                <a href={`${oauthUrl}/api/v1/auth/new-google`} >
                   <FcGoogle color="black" size={34} />
                   {/* <img className="w-[35px]" src="../../github.png" alt="" /> */}
                 </a>

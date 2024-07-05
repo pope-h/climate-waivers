@@ -306,18 +306,26 @@ class FollowerSerializer(serializers.ModelSerializer):
 
 
 class TokenVerifySerializer(serializers.Serializer):
-    token = serializers.PrimaryKeyRelatedField(
-        queryset=Token.objects.all(), source="key"
-    )
+    token = serializers.CharField()
 
-    def validate_token(self, token):
-        if token.created < (
-            timezone.now()
-            - timezone.timedelta(seconds=settings.TOKEN_EXPIRY_TIME)  # noqa
-        ):
-            raise serializers.ValidationError(_("Token has expired"))
-        self.user = token.user
-        return token
+    def validate(self, attrs):
+        token_str = attrs.get('token')
+        
+        try:
+            token_obj = Token.objects.get(token=token_str)
+        except Token.DoesNotExist:
+            raise serializers.ValidationError("Invalid token")
+
+        if not token_obj.is_valid or token_obj.is_expired():
+            raise serializers.ValidationError("Token is invalid or expired")
+
+        return {
+            'token': token_obj.token,
+            'user_id': token_obj.user.id,
+            'is_valid': token_obj.is_valid,
+            'created_at': token_obj.created_at,
+            'updated_at': token_obj.updated_at,
+        }
 
     def create(self, validated_data):
         self.user.is_email_verified = True

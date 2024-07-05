@@ -12,18 +12,17 @@ import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-
 
 const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
-  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
-  // const [isSave, setIsSave] = useState(false);
   const [page, setPage] = useState("");
   const [isModal, setIsModal] = useState(true);
+
+  const queryClient = useQueryClient();
 
   const headers = {
     "Content-Type": "application/json",
@@ -38,21 +37,72 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
     url = `${BACKENDURL}/api/${type}/?post=${postId}`;
   }
   const fetchPosts = async () => {
-    await axios
-      .get(url, {
-        headers: headers,
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res);
-        setPosts(res.data);
-        return res.data;
-      })
-      .catch((err) => console.log(err.message));
+    const res = await axios.get(url, {
+      headers: headers,
+      withCredentials: true,
+    });
+    console.log(res.data)
+    return res.data;
   };
 
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["posts", category],
+    queryFn: fetchPosts,
+  });
+
+  const likeMutation = useMutation({
+    mutationFn: (postId) =>
+      axios.put(
+        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        { action: "like" },
+        { headers, withCredentials: true }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
+  const unlikeMutation = useMutation({
+    mutationFn: (postId) =>
+      axios.put(
+        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        { action: "like", like: false },
+        { headers, withCredentials: true }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: (postId) =>
+      axios.put(
+        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        { action: "save" },
+        { headers, withCredentials: true }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
+  const unsaveMutation = useMutation({
+    mutationFn: (postId) =>
+      axios.put(
+        `${BACKENDURL}/api/like_savepost/${postId}/`,
+        { action: "save", save: false },
+        { headers, withCredentials: true }
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   const handlePostClick = (selectedPost) => {
-    // Navigate to the comment page and pass the post data
     navigate(`/${selectedPost.id}/comments`, {
       state: { postData: selectedPost, category: category },
     });
@@ -66,132 +116,26 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
     }
   };
 
-
-  const likePost = async (postId) => {
-    try {
-      const res = await axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "like" },
-        {
-          headers: headers,
-          withCredentials: true,
-        }
-      );
-      const updatedPosts = posts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              isLiked: res.data.is_liked,
-              likers_count: res.data.likers_count,
-            }
-          : post
-      );
-      setPosts(updatedPosts);
-      console.log(res.data);
-      return res.data;
-    } catch (err) {
-      console.log(err.message);
+  useEffect(() => {
+    if (isLoading) {
+      toast.dismiss();
+      toast.info("Fetching Posts...", {
+        autoClose: 500,
+      });
     }
-  };
 
-  const unlikePost = async (postId) => {
-    try {
-      const res = await axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "like", like: false },
-        {
-          headers: headers,
-          withCredentials: true,
-        }
-      );
-      const updatedPosts = posts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              isLiked: res.data.is_liked,
-              likers_count: res.data.likers_count,
-            }
-          : post
-      );
-      setPosts(updatedPosts);
-      console.log(res.data);
-      return res.data;
-    } catch (err) {
-      console.log(err.message);
+    if (error) {
+      toast.dismiss();
+      toast.error("An error occurred while fetching posts");
     }
-  };
 
-  const savePost = async (postId) => {
-    try {
-      const res = await axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "save" },
-        {
-          headers: headers,
-          withCredentials: true,
-        }
-      );
-      const updatedPosts = posts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              isSaved: res.data.is_saved,
-              savers_count: res.data.savers_count,
-            }
-          : post
-      );
-      setPosts(updatedPosts);
-      console.log(res.data);
-      return res.data;
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
 
-  const unsavePost = async (postId) => {
-    try {
-      const res = await axios.put(
-        `${BACKENDURL}/api/like_savepost/${postId}/`,
-        { action: "save", save: false },
-        {
-          headers: headers,
-          withCredentials: true,
-        }
-      );
-      const updatedPosts = posts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              isSaved: res.data.is_saved,
-              savers_count: res.data.savers_count,
-            }
-          : post
-      );
-      setPosts(updatedPosts);
-      console.log(res.data);
-      return res.data;
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
-  const { isPending, error, data, isFetching } = useQuery({
-    queryKey: ['posts'],
-    queryFn: fetchPosts
-  })
-
-  if (isPending) { toast.info("Fetching Posts...", {
-    autoClose: 500,
-  });
-}
-
-  if (error)  toast.error('An error fetching posts')
-
+  }, [isLoading, posts, error]);
 
   return (
     <div className="py-3">
-      {posts.map((post, index) => (
-        <div key={index} className="border-b-[1px] border-gray-300 py-4">
+      {posts?.map((post, index) => (
+        <div key={index} className="border-b-[1px] border-gray-700 py-4">
           <Accountcard user={post.user} />
           <div onClick={() => handlePostClick(post)}>
             <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
@@ -205,10 +149,12 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
             <div
               className="flex flex-row items-center"
               onClick={() => {
-                post.isLiked ? unlikePost(post.id) : likePost(post.id);
+                post.is_liked
+                  ? unlikeMutation.mutate(post.id)
+                  : likeMutation.mutate(post.id);
               }}
             >
-              <AiFillHeart size={18} color={post.isLiked ? "#e01616" : ""} />
+              <AiFillHeart size={18} color={post.is_liked ? "#e01616" : ""} />
               <p className="text-xs ml-1 ">{post.likers_count}</p>
             </div>
             <div
@@ -224,7 +170,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
                     <p className="w-80 py-3 text-left  ">
                       Connect your digital wallet to support disaster relief
                       efforts! Your contribution can make a meaningful impact.
-                      Click below to connect your wallet and donate funds
+                      Click below to connect your wallet and donate and receive funds
                       securely.
                     </p>
                     <Link to="../wallet">
@@ -252,18 +198,19 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
             <div
               className="flex flex-row items-center"
               onClick={() => {
-                post.isSaved ? unsavePost(post.id) : savePost(post.id);
+                post.is_saved
+                  ? unsaveMutation.mutate(post.id)
+                  : saveMutation.mutate(post.id);
               }}
             >
               <PiBookmarkFill
                 size={18}
-                color={post.isSaved ? "rgb(0 128 128 / 1)" : ""}
+                color={post.is_saved ? "rgb(0 128 128 / 1)" : ""}
               />
               <p className="text-xs ml-1 ">{post.savers_count}</p>
             </div>
             <div className="flex flex-row items-center  ">
               <TbLineDashed size={18} />
-              {/* <p className='text-xs ml-1 '>2</p> */}
             </div>
           </div>
         </div>
