@@ -5,16 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "codegen": "graphql-codegen",
-    "codegen:graphql": "graphql-codegen",
-    "codegen:typechain": "typechain --target ethers-v5 --out-dir src/generated/rollups './node_modules/@cartesi/rollups/export/artifacts/**/*.json'",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@cartesi/rollups": "1.0.0",
-    "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@ethersproject/providers": "^5.6.0",
@@ -61,12 +56,6 @@
     "yarn": "^1.22.18"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.12.0",
-    "@graphql-codegen/typed-document-node": "^2.3.3",
-    "@graphql-codegen/typescript": "2.7.3",
-    "@graphql-codegen/typescript-operations": "^2.5.3",
-    "@graphql-codegen/typescript-urql": "^3.5.7",
-    "@graphql-typed-document-node/core": "^3.1.1",
     "@tanstack/eslint-plugin-query": "^5.50.1",
     "@typechain/ethers-v5": "^10.0.0",
     "@types/react": "^18.2.66",

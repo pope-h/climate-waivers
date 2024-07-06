@@ -82,7 +82,7 @@ const Chatcomponent = () => {
           value={textValue}
           onChange={(e) => setTextValue(e.target.value)}
           type="text"
-          placeholder="Ask waverX a question."
+          placeholder="Ask waverX a question about disaster."
         />{" "}
         <AiOutlineSend
           size={25}

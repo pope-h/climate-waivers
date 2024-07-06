@@ -28,8 +28,8 @@ const Leftsidebar = () => {
           alt="Profile Pic"
         />
         <div>
-          {<h3>{user?.first_name}</h3>}
-          {<p>@{user?.username}</p>}
+          {<h3>{user?.first_name} {user?.last_name}</h3>}
+          {<p className="text-gray-500">@{user?.username}</p>}
         </div>
       </div>
     </div>

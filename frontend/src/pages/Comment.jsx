@@ -6,13 +6,10 @@ import { useLocation } from "react-router-dom";
 
 const Comment = ({type}) => {
   const { postId } = useParams();
-  const location = useLocation();
-  const { post } = location.state
-  console.log(post)
 
   return (
     <div className="text-2xl text-center pt-1 md:pt-5 ">
-      <CommentPost post={post} />
+      <CommentPost type="post" postId={postId} />
       <Postcomponent  type={type} postId={postId} />
     </div>
   );

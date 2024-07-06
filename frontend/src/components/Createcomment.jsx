@@ -3,17 +3,17 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import PropTypes from "prop-types";
 
-
-export default function Createcomment() {
+const Createcomment = ({postId}) => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
 
   //const formError = formState.errors;
-  const postId = useParams().postId;
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
 
+  console.log(useParams());
   const onSubmit = (data) => {
     // Send data to API if needed
     const posterFn = async () => {
@@ -22,8 +22,13 @@ export default function Createcomment() {
         Authorization: `Bearer ${accessToken}`,
         "X-CSRFToken": `${Cookies.get("csrftoken")}`,
       };
-      data.image = data.image[0];
-      data.post = postId
+      data.post = postId;
+      if (!data.image[0]) {
+        delete data.image;
+        console.log(data);
+      } else {
+        data.image = data.image[0];
+      }
       await axios
         .post(`${backendUrl}/api/comment/`, data, {
           headers,
@@ -34,14 +39,20 @@ export default function Createcomment() {
         })
         .catch((error) => console.log(error));
     };
-    toast.promise(posterFn, {
-      pending: "Submitting comment..",
-      success: "Comment posted 👌",
-      error: "An Error occured 🤯",
-    });
+    toast.promise(
+      posterFn,
+      {
+        pending: "Submitting comment..",
+        success: "Comment posted 👌",
+        error: "An Error occured 🤯",
+      },
+      {
+        autoClose: 200,
+      }
+    );
     // Reset the form after submission
     reset();
-    navigate(-1);
+    navigate(`${postId}/comments`);
   };
 
   return (
@@ -70,6 +81,8 @@ export default function Createcomment() {
   );
 }
 
-/*Createcomment.propTypes = {
-	postId: PropTypes.string,
-  };*/
+Createcomment.propTypes = {
+  postId: PropTypes.string,
+};
+
+export default Createcomment

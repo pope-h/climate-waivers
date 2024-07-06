@@ -10,18 +10,24 @@ const Accountcard = ({ user }) => {
   //const unfollowStyles = ' after:content-[Unfollow] after:bg-white-100 after:outline after:outline-3 after:outline-black-500 after:text-white-500 '
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   const accessToken = Cookies.get("token");
+  // const cachedUser = Cookies.get("user");
+
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
 
-  const follow = async () => {
+  const follow = async (userId) => {
     await axios
-      .get(`${backendUrl}/api/${user}/follow`, {
-        headers: headers,
-        withCredentials: true,
-      })
+      .post(
+        `${backendUrl}/api/following/`,
+        { user: userId },
+        {
+          headers: headers,
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         return res.data;
       })
@@ -29,12 +35,16 @@ const Accountcard = ({ user }) => {
         console.log(err.message);
       });
   };
-  const unfollow = async () => {
+  const unfollow = async (userId) => {
     await axios
-      .get(`${backendUrl}/api/${user}/unfollow`, {
-        headers: headers,
-        withCredentials: true,
-      })
+      .delete(
+        `${backendUrl}/api/following/`,
+        { user: userId },
+        {
+          headers: headers,
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         return res.data;
       })
@@ -42,11 +52,11 @@ const Accountcard = ({ user }) => {
         console.log(err.message);
       });
   };
-  const handleFollow = async () => {
+  const handleFollow = async (userId) => {
     if (!isFollow) {
-      await follow();
+      await follow(userId);
     } else {
-      await unfollow();
+      await unfollow(userId);
     }
   };
 
@@ -54,19 +64,21 @@ const Accountcard = ({ user }) => {
     <div className="flex flex-row items-center px-3 py-1 justify-between ">
       <div className="flex flex-row items-center self-center ">
         <img
-          src={user.profile_pic ? user.profile_pic : "../../avatar.png"}
+          src={user?.profile_pic ? user.profile_pic : "../../pic1.png"}
           className="mr-2 rounded-full h-12"
           alt="Profile Pic"
         />{" "}
-        <div className="text-sm">
-          <h3>{user.first_name}</h3>
-          <p className="text-xs">@{user.username}</p>
+        <div className="text-sm flex flex-col">
+          <h3>
+            {user?.first_name} {user?.last_name}
+          </h3>
+          <p className="text-xs text-left text-gray-500">@{user?.username}</p>
         </div>
       </div>
       <button
         onClick={() => {
           setIsFollow(!isFollow);
-          handleFollow();
+          handleFollow(user?.id);
         }}
         // style={followStyle}
         className={`bg-purple-500 text-xs text-white font-semibold py-2 px-3 ml-2  rounded-xl ${

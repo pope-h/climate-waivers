@@ -158,7 +158,11 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
             <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
             <img
               className="w-[100%] px-3 "
-              src={post?.image ? `${BACKENDURL}/api/${post.image}`: "../../postpic.png"}
+              src={
+                post?.image
+                  ? `${BACKENDURL}/api/${post.image}`
+                  : "../../postpic.png"
+              }
               alt=""
             />
           </div>
@@ -171,6 +175,13 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
                   : likeMutation.mutate(post.id);
               }}
             >
+              {isModalOpen && (
+                <div className="bg-purple">
+                  <Modal closeFn={() => setIsModalopen(false)}>
+                    <Createcomment postId={post.id} />
+                  </Modal>
+                </div>
+              )}
               <AiFillHeart size={18} color={post.is_liked ? "#e01616" : ""} />
               <p className="text-xs ml-1 ">{post.likers_count}</p>
             </div>
@@ -207,11 +218,6 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
           </div>
         </div>
       ))}
-      {isModalOpen && (
-              <Modal closeFn={() => setIsModalopen(false)}>
-                <Createcomment />
-              </Modal>
-            )}
     </div>
   );
 };

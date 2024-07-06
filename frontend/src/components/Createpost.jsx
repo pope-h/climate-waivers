@@ -37,7 +37,7 @@ export default function Createpost() {
       );
     } else {
       toast("Geolocation is not supported by your browser", {
-        autoClose: 2500,
+        autoClose: 500,
       });
     }
   }, []);
@@ -100,7 +100,7 @@ export default function Createpost() {
         error: "An Error occured 🤯",
       },
       {
-        autoClose: 800,
+        autoClose: 200,
       }
     );
     // Reset the form after submission
