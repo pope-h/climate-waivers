@@ -5,12 +5,6 @@ const Leftsidebar = () => {
   //made this changes just to get by to integrate the chatbot
   const user = getUser()
 
-  
-  // const user = {
-  //   "name": "Abdul",
-  // }
-  // console.log(user);
-
   return (
     <div className=" border-r-[1px] border-gray-700 hidden md:block pt-5">
       {/* Logo */}

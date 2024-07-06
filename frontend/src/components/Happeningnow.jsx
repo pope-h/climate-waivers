@@ -11,7 +11,7 @@ const Happeningnow = () => {
     const path = "Posts"
     watchCollection(path, (snapshot)=>{
       const data = snapshot.docs.map(d=>({...d.data(), remoteId: d.id}))
-      console.log({data})
+      const sorted = data.sort((a,b)=>b.postedAt - a.postedAt)
       setPosts(data)
     })
   }, [])

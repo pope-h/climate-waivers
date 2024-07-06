@@ -53,8 +53,8 @@ class AI{
         }
     }
 
-    async checkChatCategory(message){
-        const prompt = `consider this list ${this.promptCategories}, categorize this message "${message}" and return the index of the category in the given list. respond strictly with only the index. e.g 0. No explanation is expected in your response`
+    async checkChatCategory(message, image=undefined){
+        const prompt = `consider this list ${this.promptCategories}, categorize this message "${message}" ${image && "with image attached "}and return the index of the category in the given list. respond strictly with only the index. e.g 0. No explanation is expected in your response`
         return this.exec(prompt)
     }
 

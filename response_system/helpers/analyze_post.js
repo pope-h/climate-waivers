@@ -9,10 +9,8 @@ async function analyzePost(obj){
     try{
     const {id: postId} = obj
     const post = await postService.getById(postId)
-    const catIndex = await aiService.checkChatCategory(post.body)
+    const catIndex = await aiService.checkChatCategory(post.body, post.image)
     const location = post.location
-    console.log({post})
-
     if(catIndex == "0"){
         const body = `hello @${post.username} we noticed you flagged this post as a disaster related post, kindly refrain from this action to prevent raising false alarm to the public`
         await postService.create({userId: aiConfig.id, username: aiConfig.username, body, replyTo: post.id})
@@ -26,7 +24,7 @@ async function analyzePost(obj){
         sendToQueue(queues.custom_mail, {emails: ["tester@test.co", "tester01@gmail.com", "tester02@gmail.com"], data: {content: aiMessage}})
         return 
     }
-       
+    
 
     }catch(err){
         console.log(err)

@@ -20,15 +20,17 @@ export const DisaxPostCard = ({post}) =>{
     return <div className="disaster-post-card border-b-[1px] border-gray-700 py-4">
     <Accountcard user={postUser} />
     <div onClick={() => commentPage(post)}>
-      <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
-      {post.image && <img
+      <p className="text-left text-sm px-3 my-3 ">{post.body}</p>
+      {
+      post.image && <img
         className="w-[100%] px-3 "
         src={post.image}
         alt=""
-      />}
+      />
+      }
     </div>
     <div className="flex flex-row justify-between px-3 mt-2 ">
-      <div
+      {/* <div
         className="flex flex-row items-center"
         onClick={() => {
           post.is_liked
@@ -38,12 +40,12 @@ export const DisaxPostCard = ({post}) =>{
       >
         <AiFillHeart size={18} color={post.is_liked ? "#e01616" : ""} />
         <p className="text-xs ml-1 ">{post.likers_count}</p>
-      </div>
-      <div className="flex flex-row items-center">
+      </div> */}
+      {/* <div className="flex flex-row items-center">
         <FaDonate size={18} />
         <p className="text-xs ml-1 ">{post.comments_count}</p>
-      </div>
-      <Link onClick={() => setIsModalopen(true)}>
+      </div> */}
+      {/* <Link onClick={() => setIsModalopen(true)}>
         <div
           className="flex flex-row items-center  "
           onClick={() => setIsModalopen(true)}
@@ -51,8 +53,8 @@ export const DisaxPostCard = ({post}) =>{
           <IoChatboxEllipses size={18} />
           <p className="text-xs ml-1 ">{post.comments_count}</p>
         </div>
-      </Link>
-      <div
+      </Link> */}
+      {/* <div
         className="flex flex-row items-center"
         onClick={() => {
           post.is_saved
@@ -65,7 +67,7 @@ export const DisaxPostCard = ({post}) =>{
           color={post.is_saved ? "rgb(0 128 128 / 1)" : ""}
         />
         <p className="text-xs ml-1 ">{post.savers_count}</p>
-      </div>
+      </div> */}
       <div className="flex flex-row items-center  ">
         <TbLineDashed size={18} />
       </div>
