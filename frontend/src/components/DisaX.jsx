@@ -1,10 +1,34 @@
 import Postcomponent from './Postcomponent'
+import { DisaxPostCard } from './DisaxPostCard'
+import { useState } from 'react'
+import { watchCollection } from '../services/firebase.service'
+import { useEffect } from 'react'
 
 const DisaX = () => {
+  const [ tips, setTips] = useState([]) 
+
+
+  useEffect(()=>{
+    const path = "Tips"
+    watchCollection(path, (snapshot)=>{
+      const data = snapshot.docs.map(d=>({...d.data(), remoteId: d.id}))
+      const sorted = data.sort((a,b)=>b.postedAt - a.postedAt)
+      setTips(data)
+    })
+  }, [])
+
+
   return (
     <div className='text-xl  text-center pt-1 md:pt-5 '>
         <h2 className='pb-1 md:pb-3 text-lg md:text-xl border-gray-500 border-b-2 font-semibold '>WaverX</h2>
-        <Postcomponent category='disaX'/>
+
+        <div className="disaster-posts-wrapper overflow-auto">
+          {
+            tips.map(p=>{
+            return <DisaxPostCard key={p.remoteId} post={p} />
+          })
+          }
+        </div>
         
     </div>
   )

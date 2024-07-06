@@ -5,7 +5,7 @@ import { PiBookmarkFill } from "react-icons/pi";
 import { TbLineDashed } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { FaDonate } from "react-icons/fa";
-
+import { IoAlertCircle } from "react-icons/io5";
 
 
 
@@ -69,7 +69,7 @@ export const DisaxPostCard = ({post}) =>{
         <p className="text-xs ml-1 ">{post.savers_count}</p>
       </div> */}
       <div className="flex flex-row items-center  ">
-        <TbLineDashed size={18} />
+        {post.isAlert? <IoAlertCircle color="red" />: <TbLineDashed size={18} />}
       </div>
     </div>
   </div>
