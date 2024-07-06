@@ -85,7 +85,7 @@ const Menu = () => {
       {/* Post btn */}
       <Link
         // to={"./createpost"}
-        className="text-xl text-center font-semibold bg-[#008080] text-black shadow-md shadow-gray-500  hover:from-fuchsia-600 hover:to-purple-700 p-3 rounded-full"
+        className="text-xl text-center font-semibold bg-[#008080] text-black shadow-md shadow-purple-400  hover:from-fuchsia-600 hover:to-purple-700 p-3 rounded-full"
         onClick={() => setIsModalopen(true)}
       >
         Post
