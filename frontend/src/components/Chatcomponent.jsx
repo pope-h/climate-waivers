@@ -13,7 +13,7 @@ const Chatcomponent = ({messages, handlePostMessage}) => {
       <div className="overflow-auto message-card-list" >
         {
           !messages?.length?
-          <p className="null">no messages yet</p>:
+          <p className="null">Ask me anything about disasters</p>:
           messages.map(m=>{
           return <MessageCard postedBy={m.postedBy} key={m.remoteId} body={m.body} postedAt={m.postedAt} />})
         }

@@ -1,8 +1,11 @@
 import Cookies from "js-cookie"
+import { getUser } from "../utils/factory"
 
-const MessageCard = ({body, id, postedBy}) =>{
-    const user = JSON.parse(Cookies.get("user"))
-    return <div className={`message-card ${user.id === id && "user-message-card"}`}>
+const MessageCard = ({body, postedBy, postedAt}) =>{
+    const user = getUser()
+    return <div className={`message-card ${user.id === postedBy ?"self": "other"}`}>
         <p>{body}</p>
     </div>
 }
+
+export default MessageCard
