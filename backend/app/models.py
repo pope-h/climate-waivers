@@ -75,6 +75,7 @@ class Post(TimeStampedModel):
         choices=[
             ("community", "Community"),
             ("education", "Education"),
+            ("reports", "Reports")
         ],
         default="community",
     )

@@ -31,7 +31,8 @@ def fetch_climate_data(location, start_date, end_date, disaster_type, api_key):
         api_key = os.getenv("API_KEY")
 
     params = {
-        "location": location,
+        "location": 
+location,
         "startTime": start_date,  # start date of disaster
         "endTime": end_date,  # end date of disaster
         "key": api_key,
