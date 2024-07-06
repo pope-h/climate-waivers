@@ -1,92 +1,36 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineSend } from "react-icons/ai";
 import { useParams } from "react-router-dom";
+import MessageCard from "./message-card";
 
-const Chatcomponent = () => {
-  const [textValue, setTextValue] = useState("");
-  const [isSubmited, setIsSubmited] = useState("");
-  const [receivedMessages, setReceivedMessages] = useState([]);
-  const [allMessages, setAllMessages] = useState([]);
+const Chatcomponent = ({messages, handlePostMessage}) => {
+  const bodyRef = useRef()
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  /*const consumeMessages = async () => {
-        try {
-          await axios
-            .get(
-              `${kafkaApi}/api/ai-response/${userId}`
-            )
-            .then((res) => {
-              console.log(res.data);
-              // Update receivedMessages state with the fetched messages
-              setReceivedMessages(res.data.messages);
-            });
-        } catch (error) {
-          console.error(error);
-        }*/
-
-  // const produceMessage = async () => {
-  //   try {
-  //     const data = {
-  //       userId: userId,
-  //       message: textValue,
-  //       userLocation: { latitude: 40.73061, longitude: -73.935242 },
-  //     };
-  //     await axios
-  //       .post(`${kafkaApi}/api/chat`, data)
-  //       .then(async (res) => {
-  //         console.log(res.data);
-  //         if (textValue.trim() !== "" && isSubmited) {
-  //           // Update the list with the new item
-  //           setAllMessages((allMessages) => [...allMessages, textValue]);
-  //           console.log(allMessages);
-  //           setTextValue("");
-  //           // Call the fetchMessages function
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  /**const fetchMessages = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_APP_CHATBOT}/getMessages`
-        );
-        const data = await response.json();
   
-        // Update receivedMessages state with the fetched messages
-        setAllMessages(data.messages);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchMessages();*/
 
   return (
     <div className="max-h-fit h-[90%] flex flex-col justify-between">
-      <div className="overflow-auto">
-        {allMessages.map((message, index) => (
-          <div key={index}>{message}</div>
-        ))}
-        {receivedMessages.map((message, index) => (
-          <div key={index}>{message}</div>
-        ))}
+      <div className="overflow-auto message-card-list" >
+        {
+          !messages?.length?
+          <p className="null">no messages yet</p>:
+          messages.map(m=>{
+          return <MessageCard postedBy={m.postedBy} key={m.remoteId} body={m.body} postedAt={m.postedAt} />})
+        }
       </div>
       <div className="bg-graylight p-1 mx-5 md:p-2 border-2 border-gray-500  rounded-full flex flex-row items-center ">
         <input
           className="justify-self-end w-[80%] focus:outline-0 focus:bg-gray-200 rounded-full p-2 text-black "
-          value={textValue}
-          onChange={(e) => setTextValue(e.target.value)}
           type="text"
-          placeholder="Ask waverX a question about disaster."
+          placeholder="Ask waverX a question about disaster"
+          ref={bodyRef}
         />{" "}
         <AiOutlineSend
           size={25}
-         // onClick={handleSubmit}
+          onClick={()=>{
+            handlePostMessage(bodyRef.current?.value)
+            bodyRef.current.value = ""
+          }}
           className="items-end p-.5 ml-3 cursor-pointer "
           type="submit"
         />

@@ -39,7 +39,7 @@ const CommentPost = ({ category = "", type = "post", postId = "" }) => {
     "X-CSRFToken": `${Cookies.get("csrftoken")}`,
   };
 
-  const url = `${BACKENDURL}/api/${type}/${postId}/`;
+  let url = `${BACKENDURL}/api/${type}/${postId}/`;
 
   if (type !== "post") {
     url = `${BACKENDURL}/api/${type}/?post=${postId}`;
