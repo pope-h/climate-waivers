@@ -6,6 +6,9 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Accountcard from "./Accountcard";
+import { getAuthToken } from "../utils/factory";
+
+const rs_backend_url = import.meta.env.VITE_APP_BACKEND_URL
 
 export default function Createpost() {
   const { register, handleSubmit, reset } = useForm();
@@ -14,56 +17,38 @@ export default function Createpost() {
 
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   //const modelResponseUrl = import.meta.env.VITE_APP_MODEL_RESPONSE_URL;
-  const accessToken = Cookies.get("token");
-  const [location, setLocation] = useState(null);
+  const accessToken = getAuthToken()
   const navigate = useNavigate();
 
   //const username = Cookies.get("username");
 
   useEffect(() => {
-    // Check if the browser supports geolocation
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // Extract latitude and longitude from the position object
-          const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
-        },
-        (error) => {
-          toast(error, {
-            autoClose: 1500,
-          });
-        }
-      );
-    } else {
-      toast("Geolocation is not supported by your browser", {
-        autoClose: 2500,
-      });
-    }
+    // This code is not needed anymore, location is gotten from ip address, add a text to tell user to turn off vpn if he is using one.
+
+    // if ("geolocation" in navigator) {
+    //   navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       // Extract latitude and longitude from the position object
+    //       const { latitude, longitude } = position.coords;
+    //       setLocation({ latitude, longitude });
+    //     },
+    //     (error) => {
+    //       toast(error, {
+    //         autoClose: 1500,
+    //       });
+    //     }
+    //   );
+    // } else {
+    //   toast("Geolocation is not supported by your browser", {
+    //     autoClose: 2500,
+    //   });
+    // }
+
+
   }, []);
-  /*
-  const aiAnalyze = async (data, postId) => {
-    data["username"] = username;
-    data["message"] = data.text;
-    if (data.image) {
-      data["image"] = data.picture[0];
-    }
-    data["postId"] = postId;
-    data["location"] = location
-      ? `${location.longitude},${location.latitude}`
-      : "53.6,42.3";
-    await axios
-      .post(`${modelResponseUrl}/api/chatbot`, data)
-      .then((response) => {
-        console.log(response.data);
-        Cookies.set("access_token", response.data.access_token);
-        toast.success("DisaX just analyzed your report, check it out", {
-          autoClose: 2500,
-        });
-      })
-      .catch((error) => console.log(error));
-  };
-*/
+
+
+
   const onSubmit = (data) => {
     // Send data to API if needed
     const posterFn = async () => {
@@ -107,6 +92,10 @@ export default function Createpost() {
     reset();
     navigate("/")
   };
+
+  async function handleReportSubmission(){
+    
+  }
 
 
   return (

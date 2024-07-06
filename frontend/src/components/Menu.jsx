@@ -5,19 +5,11 @@ import Modal from "./Modal";
 import Createpost from "./Createpost";
 import { useState } from "react";
 import { FaDonate } from "react-icons/fa";
+import { getUser } from "../utils/factory";
 
 
 const Menu = () => {
-  const userCookie = Cookies.get("user")
-  //made this changes just to get by to integrate the chatbot
-  let user = {
-    id: "001"
-  };
-  if(!userCookie){ 
-
-  }else{
-    user = JSON.parse(userCookie);
-  }
+  const user = getUser()
   const [isModalOpen, setIsModalopen] = useState(false)
 
   return (

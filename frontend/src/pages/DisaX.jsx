@@ -47,6 +47,7 @@ const DisaXBot = () => {
 
   async function handleCreateChat(){
     const userId = getUser()?.id
+    console.log({userId})
     const res = await axios.post(`${backend_url}/chats`, {userId})
     if(res.data){
         setChats([res.data, ...chats])

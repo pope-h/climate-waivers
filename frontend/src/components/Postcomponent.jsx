@@ -15,6 +15,9 @@ import Wallet from "./Wallet";
 import { FaDonate } from "react-icons/fa";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
+import { getUser } from "../utils/factory";
+
+const backend_url = import.meta.env.VITE_APP_BACKEND_URL;
 
 const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
@@ -207,6 +210,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
           </div>
         </div>
       ))}
+
       {isModalOpen && (
               <Modal closeFn={() => setIsModalopen(false)}>
                 <Createcomment />
