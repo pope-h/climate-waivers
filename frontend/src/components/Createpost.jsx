@@ -3,16 +3,24 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Accountcard from "./Accountcard";
 import { MdOutlinePhotoCamera } from "react-icons/md";
+import { getAuthToken } from "../utils/factory";
+import { getUser } from "../utils/factory";
+import { uploadFiles } from "../services/upload.service";
 
-export default function Createpost() {
+
+
+const rs_backend_url = import.meta.env.VITE_APP_BACKEND_URL
+
+export default function Createpost({closeModal}) {
   const { register, handleSubmit, reset } = useForm();
   const [imagePreview, setImagePreview] = useState(null);
 
   //const formError = formState.errors;
+  const user = getUser()
 
   const backendUrl = import.meta.env.VITE_APP_BACKEND_URL;
   //const modelResponseUrl = import.meta.env.VITE_APP_MODEL_RESPONSE_URL;
@@ -77,6 +85,7 @@ export default function Createpost() {
   };
   const onSubmit = (data) => {
     // Send data to API if needed
+    handleReportSubmission()
     const posterFn = async () => {
       const headers = {
         "Content-Type": "multipart/form-data",
@@ -115,12 +124,45 @@ export default function Createpost() {
     );
     // Reset the form after submission
     reset();
-    navigate("/");
+    closeModal()
+    // navigate("/")
   };
+
+  const formRef = useRef()
+
+  async function handleReportSubmission(){
+    const formData = new FormData(formRef.current)
+    const entries = Object.fromEntries(formData.entries())
+    let imageUrl
+    if(entries.image){
+      imageUrl = await uploadFiles(entries.image)
+    }
+    const data = {...entries}
+    if(data.category !== "happening")return
+    if(imageUrl){
+      if(imageUrl.length == 1){
+        data.image = imageUrl[0]
+      }else{
+        data.image = imageUrl
+      }
+    }
+    try{
+      const url = rs_backend_url + "/posts"
+
+    const payload = {...data, username: getUser().username, userId: getUser().id, body: data.content, content: undefined, category: undefined}
+
+    const res = await axios.post(url, payload)
+    closeModal()
+      
+    }catch(err){
+      console.log(err, err.response)
+    }
+  }
+
 
   return (
     <>
-      <form
+     <form
         onSubmit={handleSubmit(onSubmit)}
         className=" p-3 md:p-6 bg-white rounded-md d flex  w-[30vw] flex-col"
       >

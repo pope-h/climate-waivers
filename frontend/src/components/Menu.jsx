@@ -94,7 +94,7 @@ const Menu = () => {
       {
         isModalOpen && 
         <Modal closeFn={() => setIsModalopen(false)}> 
-          <Createpost />
+          <Createpost closeModal={()=>setIsModalopen(false)} />
         </Modal> 
       }
     </div>

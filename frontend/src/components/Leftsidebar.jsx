@@ -2,11 +2,8 @@ import Menu from "./Menu";
 import Cookies from "js-cookie";
 
 const Leftsidebar = () => {
-  const user = JSON.parse(Cookies.get("user"));
-  // const user = {
-  //   "name": "Abdul",
-  // }
-  // console.log(user);
+  //made this changes just to get by to integrate the chatbot
+  const user = getUser()
 
   return (
     <div className=" border-r-[1px] border-gray-700 hidden md:block pt-5">

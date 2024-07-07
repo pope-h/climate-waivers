@@ -55,12 +55,10 @@ const DisaXBot = () => {
   }
 
   async function handlePostMessage(body){
-    console.log({body})
     if(!body)return
     try{
     const url = `${chatbot}/chats/${current}`
     const res = await axios.post(url, {body, userId: getUser()?.id})
-    console.log(res.data)
     }catch(err){
       console.log({err})
     }
@@ -79,7 +77,7 @@ const DisaXBot = () => {
             <BsRobot className="mr-2" size="22" />
             <h>WaverX</h>
           </div>
-          <Chatcomponent handlePostMessage={handlePostMessage} messages={messages} />
+          {current && <Chatcomponent handlePostMessage={handlePostMessage} messages={messages} />}
         </div>
         <div className=" border-l-[1px] border-gray-700 hidden md:block pt-5 ">
           {/* Search btn */}
