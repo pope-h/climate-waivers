@@ -15,7 +15,7 @@ const Menu = () => {
   return (
     <div className="flex flex-col px-6">
       {/* Menu */}
-      <div className="list-none text-base md:text-xl font-semibold flex flex-col gap-0 md:gap-2 pt-10 mb-10 w-min ">
+      <div className="list-none text-base md:text-xl font-semibold flex flex-col gap-0 md:gap-2 pt-10 mb-10 w-min md:w-[20] ">
         <NavLink
           to={"/"}
           className={({ isActive }) =>
@@ -24,7 +24,7 @@ const Menu = () => {
               : "flex items-center rounded-full p-2  hover:bg-linear"
           }
         >
-          <BsFillHouseFill className="mr-1" color="" />
+          <BsFillHouseFill className="mr-1"  />
           Home
         </NavLink>
         <NavLink
@@ -70,17 +70,7 @@ const Menu = () => {
           <BsBookmark className="mr-1" />
           Bookmarks
         </NavLink>
-        <NavLink
-          to={`/${user.id}/disaX`}
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center rounded-full p-2  hover:bg-linear "
-              : "flex items-center rounded-full p-2  hover:bg-linear "
-          }
-        >
-          <BsRobot className="mr-1" />
-          WaverX
-        </NavLink>
+        
         <NavLink
           to={`/wallet`}
           className={({ isActive }) =>

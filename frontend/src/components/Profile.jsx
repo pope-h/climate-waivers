@@ -39,7 +39,7 @@ const Profile = () => {
     if (isPending) {
       toast.dismiss();
       toast.info("Fetching Profile...", {
-        autoClose: 500,
+        autoClose: 200,
       });
     }
 
