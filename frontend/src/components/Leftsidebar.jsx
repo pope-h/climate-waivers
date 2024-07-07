@@ -1,5 +1,6 @@
 import Menu from "./Menu";
 import Cookies from "js-cookie";
+import { getUser } from "../utils/factory";
 
 const Leftsidebar = () => {
   //made this changes just to get by to integrate the chatbot
