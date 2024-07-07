@@ -65,9 +65,9 @@ app.get("/error", (req, res) => {
   try {
     const error = req.flash("error");
     console.log(error);
-    return res.status(401).json({ error });
+    return res.redirect(`${process.env.HOMEPAGE/signup}`);
   } catch (err) {
-    return res.status(401).send(err);
+    return res.redirect(`${process.env.HOMEPAGE/signup}`);
   }
 });
 

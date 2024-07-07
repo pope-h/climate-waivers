@@ -19,4 +19,5 @@ const Token = sequelize.define(
 Token.belongsTo(User);
 User.hasOne(Token);
 
+
 module.exports = Token;

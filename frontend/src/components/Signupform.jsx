@@ -28,7 +28,7 @@ export default function Signupform() {
         .post(`${backendUrl}/api/user/register/`, data)
         .then((response) => {
           Cookies.set("token", response.data.token);
-          Cookies.set("confirmationLink", response.data.confirmation_url);
+          // Cookies.set("confirmationLink", response.data.confirmation_url);
           Cookies.set("userId", response.data.id);
         })
         .catch((error) => console.log(error));

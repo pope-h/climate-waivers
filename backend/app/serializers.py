@@ -57,11 +57,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "email",
             "password",
             "username",
-            "profession",
-            "phone_number",
-            "bio",
             "cover",
             "profile_pic",
+            "first_name",
+            "last_name",
+            "last_location",
+            "is_google_user",
+            "is_verified",
+            "is_linkedin_user",
+            "is_facebook_user",
         )
         extra_kwargs = {"password": {"write_only": True}}
 

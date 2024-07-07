@@ -1,4 +1,4 @@
-LOCAL_WEB_CONTAINER_NAME=backend.web
+LOCAL_WEB_CONTAINER_NAME=backend
 LOCAL_DB_CONTAINER_NAME=backend.db
 LOCAL_DOCKER_OPTIONS= -f docker-compose.yml
 

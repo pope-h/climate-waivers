@@ -16,31 +16,36 @@ const oauthSignIn = async (req, res) => {
       const error = new TokenError(
         "Session expired, Please reauthenticate your account"
       );
-      return res.status(400).json({ error: error.message });
+      return res.redirect(`${process.env.HOMEPAGE}/login`);
     }
     refreshToken = existingToken.refreshToken;
     user.refreshToken = refreshToken;
     req.session.user = user;
     req.session.save();
-    data = {
-      username: user.username,
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      is_verified: user.isVerified,
-      is_google_user: user.isGoogleUser,
-      is_github_user: user.isGithubUser,
-      is_linkedin_user: user.isLinkedInUser,
-      password: user.refreshToken,
-      profile_pic: user.profile_pic,
-      cover: user.cover,
-    };
-    user_details = await loginLocal(user);
-    attachCookiesToResponse({ res, user: user, user_details });
+    // data = {
+    //   username: user.username,
+    //   email: user.email,
+    //   first_name: user.first_name,
+    //   last_name: user.last_name,
+    //   is_verified: user.isVerified,
+    //   is_google_user: user.isGoogleUser,
+    //   is_github_user: user.isGithubUser,
+    //   is_linkedin_user: user.isLinkedInUser,
+    //   password: user.refreshToken,
+    //   profile_pic: user.profile_pic,
+    //   cover: user.cover,
+    // };
+    user_login = await User.findOne({ where: { id: user.id } })
+    user_details = await loginLocal({
+      "username": user_login.username,
+      "password": user_login.password
+    });
+    console.log(user_details)
+    attachCookiesToResponse({ res, user: user_details });
     return res.redirect(process.env.HOMEPAGE);
   } catch (err) {
     console.log(err);
-    return res.status(403).send(err);
+    return res.redirect(`${process.env.HOMEPAGE}/login`);
   }
 };
 

@@ -18,7 +18,7 @@ class User(AbstractUser):
         error_messages={"unique": ("A user with that username already exists.")},
     )
     id = models.CharField(
-        primary_key=True, default=uuid.uuid4, editable=False, max_length=150
+        primary_key=True, default=uuid.uuid4, editable=False, max_length=36
     )
 
     profile_pic = models.ImageField(
@@ -146,7 +146,7 @@ class Follower(TimeStampedModel):
 class Token(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="token")
     is_valid = models.BooleanField(default=False)
-    token = models.CharField(max_length=255, default=uuid.uuid4)
+    token = models.CharField(max_length=255, default=uuid.uuid4, primary_key=True)
 
     def __str__(self):
         return self.token

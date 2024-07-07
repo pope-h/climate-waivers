@@ -61,7 +61,7 @@ class UserAdmin(ModelAdmin):
                 ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login",)}),
+        # (_("Important dates"), {"fields": ("last_login",)}),
     )
     add_fieldsets = (
         (

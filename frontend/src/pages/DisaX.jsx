@@ -81,11 +81,11 @@ const DisaXBot = () => {
           </div>
           <Chatcomponent handlePostMessage={handlePostMessage} messages={messages} />
         </div>
-        <div className=" border-l-[1px] border-gray-500 hidden md:block pt-5 ">
+        <div className=" border-l-[1px] border-gray-700 hidden md:block pt-5 ">
           {/* Search btn */}
-          <div className="  md:pl-6 ">
+          <div className=" border-gray-500 md:pl-6 ">
             <input
-              className="bg-graylight p-1 ml-2 md:p-2 border-2 border-graydark rounded-full text-graydark w-[80%]"
+              className="bg-graylight p-1 ml-2 md:p-2 rounded-full text-black w-[80%]"
               type="text"
               placeholder="🔍Search"
             />

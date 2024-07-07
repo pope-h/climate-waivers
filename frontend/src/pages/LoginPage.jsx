@@ -15,8 +15,8 @@ const Loginpage = () => {
     <div className="text-white grid md:grid-cols-[3fr_4fr] grid-cols-[1fr] bg-gradient-to-r from-slate-900 to-slate-700 items-center ">
       {/* from-fuchsia-500 to-purple-600 */}
       {/* bg-gradient-to-r relative from-slate-100 via-slate-50 to-purple-200 */}
-      <div className="bg-radial2  grid place-content-center h-[80vh] md:h-[100vh]   ">
-        <img src="../../logolargewhite.png" alt="" className=" z-10" />
+      <div className="bg-radial2  grid place-content-center h-[80vh] md:h-[100vh]">
+        <img src="../../logolargewhite.png" alt="" className=" z-10 " />
         {/* Two bg boxes */}
         {/* <div className="absolute -top-5 -right-6 w-[700px] h-[700px] bg-radial-gradient opacity-95 rounded-full backdrop-blur-xl -z-0 border-none "></div> */}
         {/* <div className="absolute bottom-5 left-6 bg-black w-60 h-60 "></div> */}
@@ -27,7 +27,7 @@ const Loginpage = () => {
             <div className="flex flex-row mb-2 items-center md:text-xl text-base  font-semibold bg-linear text-white p-3 rounded-full  ">
               {/* outline outline-1 ---> Styles removed text-white p-4 rounded-full -----> Styles added */}
               <FcGoogle className="mr-2 bg-white p-2 rounded-full " size={32} />{" "}
-              Continue in with Google
+              Continue with Google
             </div>
           </Link>
           <div className="flex flex-row gap-6 items-center  p-4 justify-center  py-1 ">

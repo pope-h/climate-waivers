@@ -10,7 +10,7 @@ const User = sequelize.define(
 		primaryKey: true,
 		defaultValue: DataTypes.UUIDV4
 	  },
-    firstName: {
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -19,10 +19,11 @@ const User = sequelize.define(
 		allowNull: false,
 		unique: true
 	},
-    lastName: {
+    last_name: {
       type: DataTypes.STRING,
+	  allowNull: false,
     },
-    isVerified: {
+    is_verified: {
       type: DataTypes.BOOLEAN,
 	  defaultValue: false
     },
@@ -31,38 +32,25 @@ const User = sequelize.define(
 	  allowNull: false,
 	  unique: true
     },
-    isRedhatUser: {
-      type: DataTypes.BOOLEAN,
-	  defaultValue: false
-    },
-	isFacebookUser: {
+	is_facebook_user: {
 		type: DataTypes.BOOLEAN,
 		defaultValue: false
 	},
-	isLinkedinUser: {
+	is_linkedin_user: {
 		type: DataTypes.BOOLEAN,
 		defaultValue: false
 	},
-	isGoogleUser: {
+	is_google_user: {
 		type: DataTypes.BOOLEAN,
 		defaultValue: false
 	},
-	isTwitterUser: {
-		type: DataTypes.BOOLEAN,
-		defaultValue: false
-	},
-	isGithubUser: {
+	is_github_user: {
 		type: DataTypes.BOOLEAN,
 		defaultValue: false
 	},
     password: {
       type: DataTypes.STRING,
     },
-
-	isActive: {
-		type: DataTypes.BOOLEAN,
-		defaultValue: false
-	},
 	profilePic: {
 		type: DataTypes.STRING
 	},
@@ -82,7 +70,7 @@ const User = sequelize.define(
   { tableName: 'user', timestamps: true, underscored: true }
 );
 
-sequelize.sync({ force: false })
+sequelize.sync({ alter: true})
   .then(() => {
     console.log('Database & tables synced!');
   });

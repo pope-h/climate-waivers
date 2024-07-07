@@ -4,7 +4,7 @@ services:
 
   web:
     build: .
-    command: tail -f /dev/null
+    command: python manage.py runserver 0:8000
     volumes:
       - .:/backend
     env_file:
@@ -13,7 +13,9 @@ services:
       - MYSQL_HOST=backend.db
     ports:
       - 8000:8000
-    container_name: backend.web
+    container_name: backend
+    networks:
+      - climatewavers
     depends_on:
       - db
 
@@ -26,8 +28,16 @@ services:
     container_name: backend.db
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - climatewavers
   
 volumes:
   mysql_data:
     name: "disaXta-data"
+    external: true
 
+networks:
+  climatewavers:
+    driver: bridge
+    external: true
+    name: climatewavers

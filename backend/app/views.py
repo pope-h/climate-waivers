@@ -73,7 +73,8 @@ class UserViewSet(
         )
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        send_activation_email(user.id)
+        if (not user.is_google_user or not user.is_linkedin_user or not user.is_facebook_user):
+            send_activation_email(user.id)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         # return self.create(request)
 

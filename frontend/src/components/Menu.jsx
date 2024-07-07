@@ -71,6 +71,17 @@ const Menu = () => {
           Bookmarks
         </NavLink>
         <NavLink
+          to={`/${user.id}/disaX`}
+          className={({ isActive }) =>
+            isActive
+              ? "flex items-center rounded-full p-2  hover:bg-linear "
+              : "flex items-center rounded-full p-2  hover:bg-linear "
+          }
+        >
+          <BsRobot className="mr-1" />
+          WaverX
+        </NavLink>
+        <NavLink
           to={`/wallet`}
           className={({ isActive }) =>
             isActive
@@ -85,7 +96,7 @@ const Menu = () => {
       {/* Post btn */}
       <Link
         // to={"./createpost"}
-        className="text-xl text-center font-semibold bg-[#008080] text-black shadow-md shadow-purple-400  hover:from-fuchsia-600 hover:to-purple-700 p-3 rounded-full"
+        className="text-xl text-center font-semibold bg-[#008080] text-white shadow-md shadow-purple-500/50  hover:from-fuchsia-600 hover:to-purple-700 p-3 rounded-full"
         onClick={() => setIsModalopen(true)}
       >
         Post
