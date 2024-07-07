@@ -1,5 +1,6 @@
 import Postcomponent from './Postcomponent'
-
+import { useState, useEffect } from 'react'
+import { watchCollection } from "../services/firebase.service";
 
 const Happeningnow = () => {
   const [posts, setPosts ] = useState([])

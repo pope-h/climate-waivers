@@ -150,7 +150,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
 
   return (
     <div className="py-3">
-      {!savedAddress && <Wallet />}
+      {savedAddress === "" && <Wallet />}
       {posts?.map((post, index) => (
         <div key={index} className="border-b-[1px] border-gray-700 py-4">
           {isModalOpen && (

@@ -5,10 +5,10 @@ import Modal from "./Modal";
 import Createpost from "./Createpost";
 import { useState } from "react";
 import { FaDonate } from "react-icons/fa";
-
+import { getUser } from "../utils/factory";
 
 const Menu = () => {
-  const user = JSON.parse(Cookies.get("user"));
+  const user = getUser()
 
   const [isModalOpen, setIsModalopen] = useState(false)
 

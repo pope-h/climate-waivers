@@ -88,12 +88,12 @@ const DisaXBot = () => {
               placeholder="🔍Search"
             />
           </div>
-          <div className="chats-wrapper bg-graydark min-h-[200px] m-4 rounded-xl border-gray-500">
+          <div className=" bg-graydark min-h-[200px] m-4 rounded-xl border-gray-500 border-[1px] h-[70vh]">
             <button onClick={handleCreateChat} className="bg-transparent outline outline-2 outline-[#008080] rounded-xl p-2  w-[100%] ">
               {" "}
               + New Chat
             </button>
-            <ul className="chat-list">
+            <ul className="mt-1">
               {
                 chats.map((c)=>{
                   return <ChatCard key={c.id} handleClick={handleChatCardClicked} id={c.id} createdAt={c.createdAt} current={current} />
