@@ -15,7 +15,7 @@ const Menu = () => {
   return (
     <div className="flex flex-col px-6">
       {/* Menu */}
-      <div className="list-none text-base md:text-xl font-semibold flex flex-col gap-0 md:gap-2 pt-10 mb-10 w-min md:w-[20] ">
+      <div className="list-none text-base md:text-xl font-semibold flex flex-col gap-0 md:gap-2 pt-10 mb-10 w-min ">
         <NavLink
           to={"/"}
           className={({ isActive }) =>

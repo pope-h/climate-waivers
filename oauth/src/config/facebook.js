@@ -58,26 +58,30 @@ facebook.use(
           );
           return done(null, userDetails);
         }
-
-        // save user to db and return access token if user does not exist
-        const user = await User.create({
-          username: profile._json.email,
+        const username = `${profile.name.givenName}-${accessToken.slice(-5)}`;
+        const data = {
+          username: username,
           email: profile._json.email,
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
-          isVerified: true,
-          username: `${profile.name.givenName}${profile.name.familyName}`,
-          isFacebookUser: true,
-          password: accessToken,
-          profilePic: profile.photos[0].value,
-          cover: profile._json.picture.data.url,
-        })
-          .then(() => {
-            console.log("Created account for facebook user");
+          first_name: profile.name.givenName,
+          last_name: profile.name.familyName,
+          is_verified: true,
+          is_facebook_user: true,
+          password: refreshToken.slice(-15),
+          // profilePic: profile.photos[0].value,
+          // cover: profile._json.picture.data.url,
+        };
+        // save user to db and return access token if user does not exist
+        const user = await User.create(data)
+          .then(async (res) => {
+            await localRegister(data);
+            console.log(res);
           })
           .catch((err) => {
-            console.log(err);
-            return done(err, false);
+            console.log(err.message);
+            const errMsg = {
+              message: err.message,
+            };
+            return done(err, false, errMsg);
           });
         if (user) {
           const userDetails = {
@@ -93,7 +97,7 @@ facebook.use(
             const errMsg = {
               message: err.message,
             };
-			return done(err, false, errMsg);
+            return done(err, false, errMsg);
           });
           console.log("Autenticated successfully");
           return done(null, userDetails);

@@ -10,15 +10,10 @@ class Report{
         return firebaseService.createOne(obj)
     }
 
-    isDisasterReport(){
-        queryPredictionModel()
-    }
-
-    getPrediction(){
+    getReports(){
 
     }
 
-
-
+    
 
 }

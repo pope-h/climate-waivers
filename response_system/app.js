@@ -13,8 +13,6 @@ const postsRouter = require("./routes/post.router");
 const chatsRouter = require("./routes/chat.router")
 const analyzePost = require('./helpers/analyze_post');
 const useCron = require('./lib/cron');
-const { useSingleUpload } = require('./middlewares/fileUpload');
-const { uploadOne } = require('./lib/cloudinary');
 
 
 // Use middleware

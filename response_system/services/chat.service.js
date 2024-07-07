@@ -1,8 +1,12 @@
 const fbService = require('../services/firebase.service')
 const aiService = require("../services/ai.service")
-const aiConfig = require('../config/ai')
+const aiConfig = require('../config/ai.config')
 
 const messageCollection = "messages"
+
+const getMessagePath = (chatId)=>{
+    return `ChatMessages/${chatId}/messages`
+}
 
 const chatCollection = "chats"
 
@@ -12,9 +16,9 @@ class ChatService{
     }
     async postMessage(obj){
         const rObj = {chatId: obj.chatId, body: obj.body, postedBy: obj.userId, postedAt: Date.now()}
-        console.log({rObj})
-        const {id} = await fbService.createOne(messageCollection, rObj)
-        const message = await fbService.getById(messageCollection, id)
+        const path = getMessagePath(rObj.chatId)
+        const {id} = await fbService.createOne(path, rObj)
+        const message = await fbService.getById(path, id)
         return {...message.data(), id: message.id}
     }
     async generateResponse(userId, chatId, body){
@@ -24,7 +28,8 @@ class ChatService{
         return {message: userMessage, response: aiMessage};
     }
     async getMessages(chatId){
-        const { docs } = await fbService.getAll(messageCollection, {chatId})
+        const path = getMessagePath(chatId)
+        const { docs } = await fbService.getAll(path, {chatId})
         return docs.map(m=>({...m.data(), id: m.id}))
     }
 

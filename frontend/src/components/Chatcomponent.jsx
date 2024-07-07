@@ -18,7 +18,7 @@ const Chatcomponent = ({messages, handlePostMessage}) => {
           return <MessageCard postedBy={m.postedBy} key={m.remoteId} body={m.body} postedAt={m.postedAt} />})
         }
       </div>
-      <div className="bg-gray-50 p-1 mx-5 md:p-2 border-2 border-gray-100  rounded-2xl flex flex-row items-center ">
+      <div className="bg-gray-100 p-1 mx-5 md:p-2 border-2 border-gray-100  rounded-2xl flex flex-row items-center ">
         <input
           className="justify-self-end w-[100%] focus:outline-0 focus:bg-white rounded-2xl p-2 text-black "
           type="text"
@@ -31,7 +31,7 @@ const Chatcomponent = ({messages, handlePostMessage}) => {
             handlePostMessage(bodyRef.current?.value)
             bodyRef.current.value = ""
           }}
-          className="items-end p-.5 cursor-pointer "
+          className="items-end p-.5 ml-1 cursor-pointer "
           color="#008080"
           type="submit"
         />

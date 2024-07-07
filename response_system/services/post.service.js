@@ -7,6 +7,12 @@ class Post{
         const r = await fb.createOne(collectionName, {...obj, likedBy: [], postedAt: Date.now()})
         return {id: r.id}
     }
+
+    async createTip(obj){
+        const r = await fb.createOne("Tips", {...obj, likedBy: [], postedAt: Date.now()})
+        return {id: r.id}
+    }
+
     async getAll(query={}){
         const {docs} = await fb.getAll(collectionName, query)
         return docs.map(d=>({...d.data(), id: d.id}))

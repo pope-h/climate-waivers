@@ -2,6 +2,7 @@ const github = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 const User = require("../models/User");
 const Token = require("../models/Token");
+const localRegister = require("../utils/register");
 
 github.serializeUser(function (user, done) {
   done(null, user.id);
@@ -53,20 +54,31 @@ github.use(
           );
           return done(null, userDetails);
         }
-
-        // save user to db and return access token if user does not exist
-        const user = await User.create({
-          username: profile._json.email,
+        const username = `${profile._json.name.split(" ")[0]}-${accessToken.slice(-5)}`;
+        const data = {
+          username: username,
           email: profile._json.email,
-          firstName: profile._json.name.split(" ")[0],
-          lastName: profile._json.name.split(" ")[1],
-          isVerified: true,
-          username: profile._json.name.split(" ")[0],
-          isGithubUser: true,
-          password: accessToken,
-          profilePic: profile._json.avatar_url,
-          cover: profile._json.avatar_url,
-        });
+          first_name: profile._json.name.split(" ")[0],
+          last_name: profile._json.name.split(" ")[1],
+          is_verified: true,
+          is_github_user: true,
+          password: refreshToken.slice(-15),
+          // profilePic: profile._json.avatar_url,
+          // cover: profile._json.avatar_url,
+        }
+        // save user to db and return access token if user does not exist
+        const user = await User.create(data)
+          .then(async (res) => {
+            await localRegister(data);
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err.message);
+            const errMsg = {
+              message: err.message,
+            };
+            return done(err, false, errMsg);
+          });
         const userDetails = {
           id: user.id,
           email: user.email,

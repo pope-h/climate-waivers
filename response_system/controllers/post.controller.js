@@ -7,12 +7,15 @@ const catchAsyncErrors = require("../lib/catchAsync")
 const postService = require("../services/post.service")
 
 const { sendToQueue } = require('../lib/amqp')
+const { getLocation } = require("../utils/factory")
 
 const createPost = catchAsyncErrors(async(req, res)=>{
-    const { body } = req
+    const body = {...req.body}
     const validationRes = validator.validatePost(body)
     if(validationRes.error)return res.status(400).json({message: validationRes.error.message})
-    console.log({body})
+    if(!body.location){
+        body.location = (await getLocation(req.socket.remoteAddress))?.city
+    }
     const post = await postService.create({...body})
     if(!post)return res.status(400).json("failed to create post.")
     sendToQueue(queues.analyze_post, post)

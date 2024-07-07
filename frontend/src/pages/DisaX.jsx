@@ -10,11 +10,11 @@ import { getUser } from "../utils/factory";
 import axios from "axios";
 import { watchCollection } from "../services/firebase.service";
 
-const chatbot = import.meta.env.VITE_APP_CHATBOT_URL || "http://localhost:3004/api/v1"
+const chatbot = `${import.meta.env.VITE_APP_CHATBOT_URL}/api/v1` || "http://localhost:3004/api/v1"
 
 const DisaXBot = () => {
   const [chats, setChats] = useState([])
-  const [current, setCurrent] = useState()
+  const [current, setCurrent] = useState("")
   const [messages, setMessages] = useState()
 
 

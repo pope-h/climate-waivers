@@ -1,6 +1,7 @@
 const {initializeApp} = require("firebase/app")
 const { getFirestore, collection, addDoc, getDocs, query, where, getDoc, deleteDoc, doc, updateDoc, } = require("firebase/firestore")
 const config = require("../config/config")
+const { cleanUndefined } = require("../utils/factory")
 
 
 class FB{
@@ -16,7 +17,8 @@ class FB{
  * @returns { any }
  */
     async createOne(collectionName, data){
-        return addDoc(collection(this.db, collectionName), data)
+        let cleaned = cleanUndefined(data)
+        return addDoc(collection(this.db, collectionName), cleaned)
     }
 
     /**

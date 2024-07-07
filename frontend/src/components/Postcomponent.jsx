@@ -153,6 +153,13 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
       {!savedAddress && <Wallet />}
       {posts?.map((post, index) => (
         <div key={index} className="border-b-[1px] border-gray-700 py-4">
+          {isModalOpen && (
+            <div className="">
+              <Modal closeFn={() => setIsModalopen(false)}>
+                <Createcomment postId={post.id} />
+              </Modal>
+            </div>
+          )}
           <Accountcard user={post.user} />
           <div onClick={() => commentPage(post)}>
             <p className="text-left text-sm px-3 my-3 ">{post.content}</p>
@@ -175,13 +182,6 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
                   : likeMutation.mutate(post.id);
               }}
             >
-              {isModalOpen && (
-                <div className="bg-purple">
-                  <Modal closeFn={() => setIsModalopen(false)}>
-                    <Createcomment postId={post.id} />
-                  </Modal>
-                </div>
-              )}
               <AiFillHeart size={18} color={post.is_liked ? "#e01616" : ""} />
               <p className="text-xs ml-1 ">{post.likers_count}</p>
             </div>

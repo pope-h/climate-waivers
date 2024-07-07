@@ -2,6 +2,7 @@
 const config = require("../config/config")
 const postCategories = require("../constants/post_categories")
 const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory} = require("@google/generative-ai");
+const { cleanText } = require("../utils/factory");
 
 
 // const openAI = new OpenAI(config.openai)
@@ -29,29 +30,31 @@ class AI{
         this.ai = new GoogleGenerativeAI(config.gemini.apiKey)
         this.promptCategories = postCategories
 
-        this.exec = async function(prompt, imageFile=undefined){
-            const model = this.ai.getGenerativeModel({ model: "gemini-pro", ...this.getSafetySettings()});
+        this.exec = async function(prompt, imageUrl = undefined) {
+            const model = this.ai.getGenerativeModel({ model: "gemini-pro", ...this.getSafetySettings() });
             let image;
-
-            if(imageFile){
-                const filePath = path.resolve(__dirname, `../uploads/${imageFile.filename}`)
+        
+            if (imageUrl) {
+                const response = await fetch(imageUrl);
+                const buffer = await response.buffer();
+                const mimeType = response.headers.get("content-type");
                 image = {
                     inlineData: {
-                      data: Buffer.from(fs.readFileSync(filePath)).toString("base64"),
-                      mimeType: imageFile.mimetype,
+                        data: buffer.toString("base64"),
+                        mimeType: mimeType,
                     },
-                  };
+                };
             }
-            
-            const result = await model.generateContent(!image?prompt: [prompt, image]);
-            const response = await result.response;
-            const text = response.text();
-            return text
+        
+            const result = await model.generateContent(!image ? prompt : [prompt, image]);
+            const response = result.response;
+            const text = cleanText(response.text());
+            return text;
         }
     }
 
-    async checkChatCategory(message){
-        const prompt = `consider this list ${this.promptCategories}, categorize this message "${message}" and return the index of the category in the given list. respond strictly with only the index. e.g 0. No explanation is expected in your response`
+    async checkChatCategory(message, image=undefined){
+        const prompt = `consider this list ${this.promptCategories}, categorize this message "${message}" ${image && "with image attached "}and return the index of the category in the given list. respond strictly with only the index. e.g 0. No explanation is expected in your response`
         return this.exec(prompt)
     }
 

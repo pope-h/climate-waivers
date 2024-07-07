@@ -35,7 +35,7 @@ const getChats = catchAsyncErrors(async(req, res)=>{
     const validationRes = validator.validateCreateChatPayLoad(req.query)
     if(validationRes.error)return res.status(400).json({message: validationRes.error.message})
     const chats = await chatService.getChats(req.query.userId)
-    return res.status(400).json(chats)
+    return res.status(200).json(chats)
 })
 
 module.exports ={ postMessage, getMessages, createChat, getChats}
