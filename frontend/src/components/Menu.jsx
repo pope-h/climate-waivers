@@ -72,6 +72,16 @@ const Menu = () => {
         </NavLink>
         
         <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "flex items-center rounded-full p-2  hover:bg-linear "
+              : "flex items-center rounded-full p-2  hover:bg-linear "
+          }
+        >
+          <BsBookmark className="mr-1" />
+          Plant Trees
+        </NavLink>
+        <NavLink
           to={`/wallet`}
           className={({ isActive }) =>
             isActive

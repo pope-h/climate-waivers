@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import Accountcard from "./Accountcard";
 
-const Createcomment = ({ postId }) => {
+const Createcomment = ({ postId, closeModal }) => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
@@ -58,7 +58,7 @@ const Createcomment = ({ postId }) => {
     );
     // Reset the form after submission
     reset();
-    navigate(`/${postId}/comments`);
+    closeModal()
   };
 
   const handleImageChange = (e) => {
@@ -75,7 +75,7 @@ const Createcomment = ({ postId }) => {
       {" "}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" p-3 md:p-6 bg-white rounded-md d flex  w-[30vw] flex-col"
+        className=" p-3 md:p-6 bg-white rounded-md d flex  w-[30vw] max-md:w-[80vw] flex-col"
       >
         <div className=" flex justify-between gap-4 ">
           {/* <Accountcard user={user} /> */}

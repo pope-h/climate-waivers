@@ -15,6 +15,7 @@ import Wallet from "./Wallet";
 import { FaDonate } from "react-icons/fa";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
+import Donate from "./Donate";
 
 const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
@@ -23,7 +24,8 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   // const [page, setPage] = useState("");
   const [savedAddress, setSavedAddress] = useState("");
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalopen] = useState(false);
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+  const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -153,10 +155,17 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
       {savedAddress === "" && <Wallet />}
       {posts?.map((post, index) => (
         <div key={index} className="border-b-[1px] border-gray-700 py-4">
-          {isModalOpen && (
+          {isCommentModalOpen && (
             <div className="">
-              <Modal closeFn={() => setIsModalopen(false)}>
-                <Createcomment postId={post.id} />
+              <Modal closeFn={() => setIsCommentModalOpen(false)}>
+                <Createcomment postId={post.id} closeModal={()=>setIsModalopen(false)}/>
+              </Modal>
+            </div>
+          )}
+          {isDonateModalOpen && (
+            <div className="">
+              <Modal closeFn={() => setIsDonateModalOpen(false)}>
+                <Donate postId={post.id} />
               </Modal>
             </div>
           )}
@@ -185,14 +194,16 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
               <AiFillHeart size={18} color={post.is_liked ? "#e01616" : ""} />
               <p className="text-xs ml-1 ">{post.likers_count}</p>
             </div>
+            <Link onClick={() => setIsDonateModalOpen(true)}>
             <div className="flex flex-row items-center">
               <FaDonate size={18} />
               <p className="text-xs ml-1 ">{post.comments_count}</p>
             </div>
-            <Link onClick={() => setIsModalopen(true)}>
+            </Link>
+            <Link onClick={() => setIsCommentModalOpen(true)}>
               <div
                 className="flex flex-row items-center  "
-                onClick={() => setIsModalopen(true)}
+                onClick={() => setIsCommentModalOpen(true)}
               >
                 <IoChatboxEllipses size={18} />
                 <p className="text-xs ml-1 ">{post.comments_count}</p>
