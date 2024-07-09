@@ -6,6 +6,7 @@ import Createpost from "./Createpost";
 import { useState } from "react";
 import { FaDonate } from "react-icons/fa";
 import { getUser } from "../utils/factory";
+import { BsTree } from "react-icons/bs";
 
 const Menu = () => {
   const user = getUser()
@@ -78,7 +79,7 @@ const Menu = () => {
               : "flex items-center rounded-full p-2  hover:bg-linear "
           }
         >
-          <BsBookmark className="mr-1" />
+          <BsTree className="mr-1" />
           Plant Trees
         </NavLink>
         <NavLink
