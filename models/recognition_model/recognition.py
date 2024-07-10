@@ -24,7 +24,7 @@ read_quantized_model = core.read_model(model=quantized_model, weights=quantized_
 compiled_quantized_model = core.compile_model(model=quantized_model, device_name="CPU")
 
 
-def process_image(image_file, quantized=False):
+def inference(image_file, quantized=False):
     input_layer = compiled_model.input(0)
     output_layer = compiled_model.output(0)
     quantized_input_layer = compiled_quantized_model.input(0)
