@@ -16,7 +16,7 @@ server:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) npm start
 
 build:
-	docker-compose $(LOCAL_DOCKER_OPTIONS) build
+	docker compose $(LOCAL_DOCKER_OPTIONS) build
 
 rebuild:
 	docker-compose $(LOCAL_DOCKER_OPTIONS) build --force-recreate --no-deps
