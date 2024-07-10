@@ -24,7 +24,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - 3307:3306
+      - 3306:3306
     container_name: backend.db
     volumes:
       - mysql_data:/var/lib/mysql
