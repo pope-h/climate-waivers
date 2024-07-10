@@ -14,7 +14,7 @@ npx hardhat ignition deploy ./ignition/modules/Lock.ts
 
 ## Deployment and Validation
 ### Successfully deployed and verified contract "contracts/DisaXta.sol:DisaXta" for network sepolia:
-- https://sepolia.etherscan.io/address/0x784426faa5e1223E3024d14EAFFC145Cd5a90b6f#code
+- https://sepolia.etherscan.io/address/0xD5Cc627651CCAB075439DB4C14B8De75eA4edf48#code
 
 ### successfully deployed and verified contract "contracts/ClimateWaiverEscrow.sol:ClimateWaiverEscrow" for network sepolia:
-- https://sepolia.etherscan.io/address/0x6530ebCE0DD15D1e110663ff8e9DF6727bfB7F73#code
+- https://sepolia.etherscan.io/address/0xEb81a75827dbB5941c43045A6Dda260fDB019baC#code
