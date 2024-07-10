@@ -10,7 +10,7 @@ services:
     env_file:
       - ./.env
     environment:
-      - MYSQL_HOST=backend.db
+      - MYSQL_HOST=db
     ports:
       - 8000:8000
     container_name: backend
