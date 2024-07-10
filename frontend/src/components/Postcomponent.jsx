@@ -32,6 +32,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   useEffect(() => {
     const walletAddress = localStorage.getItem("walletAddress");
     if (walletAddress) setSavedAddress(walletAddress);
+    else setSavedAddress("");
     setLoading(false);
   }, []);
 
@@ -158,7 +159,10 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
           {isCommentModalOpen && (
             <div className="">
               <Modal closeFn={() => setIsCommentModalOpen(false)}>
-                <Createcomment postId={post.id} closeModal={()=>setIsModalopen(false)}/>
+                <Createcomment
+                  postId={post.id}
+                  closeModal={() => setIsModalopen(false)}
+                />
               </Modal>
             </div>
           )}
@@ -195,10 +199,10 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
               <p className="text-xs ml-1 ">{post.likers_count}</p>
             </div>
             <Link onClick={() => setIsDonateModalOpen(true)}>
-            <div className="flex flex-row items-center">
-              <FaDonate size={18} />
-              <p className="text-xs ml-1 ">{post.comments_count}</p>
-            </div>
+              <div className="flex flex-row items-center">
+                <FaDonate size={18} />
+                <p className="text-xs ml-1 ">{post.comments_count}</p>
+              </div>
             </Link>
             <Link onClick={() => setIsCommentModalOpen(true)}>
               <div
