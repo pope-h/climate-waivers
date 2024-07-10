@@ -30,6 +30,8 @@ class AI{
         this.ai = new GoogleGenerativeAI(config.gemini.apiKey)
         this.promptCategories = postCategories
 
+        this.usePrePrompt = (prompt)=>`you are integrated as an AI chatbot named "WaverX Bot" for a climate mitigation app "Climate wavers", generate a response for this prompt "${prompt}"`
+
         this.exec = async function(prompt, imageUrl = undefined) {
             const model = this.ai.getGenerativeModel({ model: "gemini-pro", ...this.getSafetySettings() });
             let image;
@@ -45,7 +47,6 @@ class AI{
                     },
                 };
             }
-        
             const result = await model.generateContent(!image ? prompt : [prompt, image]);
             const response = result.response;
             const text = cleanText(response.text());
@@ -80,8 +81,8 @@ class AI{
     }
 
     generateEducativeQuote(){
-        const prompt = `generate an educative content/message/quote about preventing/managing natural disasters in our environment`
-        return this.exec(prompt)
+        const prompt = `generate a random message about preventing/managing natural disasters. note: no prefix or title or suffix is expected, return only the message in your response`
+        return this.exec(this.usePrePrompt(prompt))
     }
 
     getLocationFromPrompt(t){
