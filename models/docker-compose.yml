@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  models:
+    command: gunicorn --bind 0.0.0.0:5000 api:app
+    image: models
+    container_name: modelserver
+    build: .
+      # context: .
+      # dockerfile: ./Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 5000:5000

@@ -9,9 +9,9 @@ from recognition_model.recognition import inference
 import logging
 
 # Configure the logging settings
-logging.basicConfig(filename='waverx_analysis.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
-# Create a logger instance
-logger = logging.getLogger('waverx_analysis')
+# logging.basicConfig(filename='modelserver.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+# # Create a logger instance
+# logger = logging.getLogger('modelserver')
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -27,7 +27,7 @@ def magnitude_analysis():
     return jsonify(predict(location, start_date, end_date, disaster_type, key))
 
 @app.route('/api/v1/recognition/inference', methods=['POST'])
-def process():
+def disaster_recognition():
     if 'image' not in request.files:
         return jsonify({'error': 'No image file provided'}), 400
     
@@ -44,11 +44,11 @@ def process():
     
 
 @app.route("/api/v1/analysis/status", strict_slashes=False)
-def model_status():
+def analysis_status():
     return jsonify({"status": "OK"})
 
 @app.route("/api/v1/recognition/status", strict_slashes=False)
-def model_status():
+def recognition_status():
     return jsonify({"status": "OK"})
 
 @app.errorhandler(404)
