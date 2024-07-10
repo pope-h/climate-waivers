@@ -6,7 +6,7 @@ matplotlib
 numpy
 opencv-python-headless
 pandas
-scikit-learn==1.2.2
+scikit-learn
 joblib==1.4.0
 scikit-learn-intelex
 requests

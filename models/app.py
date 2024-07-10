@@ -36,7 +36,7 @@ def disaster_recognition():
     image_path = f'/tmp/{image_file.filename}'
     image_file.save(image_path)
     
-    quantized = request.json.get('quantized', 'false').lower() == 'true'
+    quantized = request.form.get('quantized', 'false').lower() == 'true'
     
     result = inference(image_path, quantized)
     if result is None:
