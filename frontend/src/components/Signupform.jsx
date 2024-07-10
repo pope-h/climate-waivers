@@ -53,7 +53,7 @@ export default function Signupform() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto text-black p-3 md:p-6 bg-linear rounded-md shadow-2xl shadow-indigo-700 flex flex-col"
+      className="max-w-md mx-auto text-black p-3 md:p-6 mt-8 bg-linear rounded-md shadow-2xl shadow-indigo-700 flex flex-col"
       style={{
         padding: "45px 35px",
         width: "95%",

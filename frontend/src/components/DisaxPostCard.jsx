@@ -14,8 +14,10 @@ export const DisaxPostCard = ({post}) =>{
     const postUser = {
         image: "",
         username: post.username,
+        first_name: "WaverX",
         userId: post.userId
     }
+    console.log(post)
 
     return <div className="disaster-post-card border-b-[1px] border-gray-700 py-4">
     <Accountcard user={postUser} />
@@ -30,7 +32,7 @@ export const DisaxPostCard = ({post}) =>{
       }
     </div>
     <div className="flex flex-row justify-between px-3 mt-2 ">
-      {/* <div
+      <div
         className="flex flex-row items-center"
         onClick={() => {
           post.is_liked
@@ -40,34 +42,34 @@ export const DisaxPostCard = ({post}) =>{
       >
         <AiFillHeart size={18} color={post.is_liked ? "#e01616" : ""} />
         <p className="text-xs ml-1 ">{post.likers_count}</p>
-      </div> */}
-      {/* <div className="flex flex-row items-center">
+      </div>
+      <div className="flex flex-row items-center">
         <FaDonate size={18} />
         <p className="text-xs ml-1 ">{post.comments_count}</p>
-      </div> */}
-      {/* <Link onClick={() => setIsModalopen(true)}>
+      </div>
+       <Link onClick={() => setIsModalopen(true)}>
         <div
           className="flex flex-row items-center  "
-          onClick={() => setIsModalopen(true)}
+          // onClick={() => setIsModalopen(true)}
         >
           <IoChatboxEllipses size={18} />
           <p className="text-xs ml-1 ">{post.comments_count}</p>
         </div>
-      </Link> */}
-      {/* <div
+      </Link>
+      <div
         className="flex flex-row items-center"
-        onClick={() => {
-          post.is_saved
-            ? unsaveMutation.mutate(post.id)
-            : saveMutation.mutate(post.id);
-        }}
+        // onClick={() => {
+        //   post.is_saved
+        //     ? unsaveMutation.mutate(post.id)
+        //     : saveMutation.mutate(post.id);
+        // }}
       >
         <PiBookmarkFill
           size={18}
           color={post.is_saved ? "rgb(0 128 128 / 1)" : ""}
         />
         <p className="text-xs ml-1 ">{post.savers_count}</p>
-      </div> */}
+      </div>
       <div className="flex flex-row items-center  ">
         {post.isAlert? <IoAlertCircle color="red" />: <TbLineDashed size={18} />}
       </div>
