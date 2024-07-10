@@ -23,6 +23,12 @@ services:
     image: mysql
     env_file:
       - ./.env
+    environment:
+      - MYSQL_USER=disaXta
+      - MYSQL_DATABASE=disaXta_db
+      - MYSQL_PASSWORD=disaXta
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_HOST=db
     ports:
       - 3306:3306
     container_name: backend.db
