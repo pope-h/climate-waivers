@@ -7,11 +7,11 @@ from openvino import Core
 import os
 
 
-model_path = Path("computer_vision_model/model/ov_model/")
+model_path = Path("recognition_model/models/ov_model/")
 model = Path(f"{model_path}/model.xml")
 weights = Path(f"{model_path}/model.bin")
 
-quantized_model_path = Path("computer_vision_model/model/quantized_model/")
+quantized_model_path = Path("recognition_model/models/quantized_model/")
 quantized_model = Path(f"{model_path}/model.xml")
 quantized_weights = Path(f"{model_path}/model.bin")
 print("Model located at {}".format(model_path))
@@ -24,7 +24,7 @@ read_quantized_model = core.read_model(model=quantized_model, weights=quantized_
 compiled_quantized_model = core.compile_model(model=quantized_model, device_name="CPU")
 
 
-def process_image(image_file, quantized=False):
+def inference(image_file, quantized=False):
     input_layer = compiled_model.input(0)
     output_layer = compiled_model.output(0)
     quantized_input_layer = compiled_quantized_model.input(0)

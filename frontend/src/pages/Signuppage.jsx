@@ -7,24 +7,26 @@ import Signupform from "../components/Signupform";
 import { BsFacebook, BsGithub } from "react-icons/bs";
 import { FaLinkedin } from "react-icons/fa";
 
-import "./styles/signup-page.css"
-
+import "./styles/signup-page.css";
 
 const oauthUrl = import.meta.env.VITE_APP_OAUTH_URL;
 
 const Signuppage = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
     <>
       <div className="grid signup  md:grid-cols-[3fr_4fr] grid-cols-[1fr] bg-gradient-to-r from-slate-900 to-slate-700  items-center text-black ">
-        <div  className=" bg-radial2  grid place-content-center h-[80vh] md:h-[100vh] banner ">
+        <div className=" bg-radial2  grid place-content-center h-[80vh] md:h-[100vh] banner ">
           <div className="writeup">
-          <h1>Climate Wavers</h1>
-          <p>Join our community to harness the power of AI, social good, and crowdfunding to mitigate the effects of natural disasters. Together, we can provide timely relief and support for the future of our society</p>
-
+            <h2>Join Climate Wavers</h2>
+            <p>
+              Connect on our AI-driven social network for effectiive climate disaster
+              responses, donate to relief efforts, and together we plant
+              trees around the world. Be part of the solution — Sign up Now!
+            </p>
           </div>
-          <img src="../../logolargewhite.png" alt="" />
+          <img src="../../Vector.svg" alt="" className=" fill-[#008080]"/>
         </div>
         <div className="form-main flex flex-col text-center items-center gap-4 -mt-[550px] md:mt-0 bg-white border md:border-0 border-gray-300 h-screen  w-[90%] md:w-[100%] justify-self-center rounded-none p-3 ">
           {isFormOpen === false ? (
@@ -32,8 +34,8 @@ const Signuppage = () => {
               {/* <h1 className="text-2xl text-grey font-semibold mb-3 mt-8 md:mt-0 ">
                 Sign up
               </h1> */}
-              <Signupform />
-              <p className="or" >or</p>
+              <Signupform/>
+              <p className="or">or</p>
               {/* <a href={`${oauthUrl}/api/v1/auth/new-google`}>
                 <div
                   className="google-btn mb-3 items-center md:text-xl text-base  font-semibold bg-linear text-white p-4 rounded-full rounded-full "
@@ -44,20 +46,20 @@ const Signuppage = () => {
                 </div>
               </a> */}
               <div className="social-wrapper flex flex-row gap-6 items-center  p-4 justify-center  py-1 ">
-                <a href={`${oauthUrl}/api/v1/auth/new-google`} >
+                <a href={`${oauthUrl}/api/v1/auth/new-google`}>
                   <FcGoogle color="black" size={34} />
                   {/* <img className="w-[35px]" src="../../github.png" alt="" /> */}
                 </a>
-                <a href={`${oauthUrl}/api/v1/auth/github`} >
+                <a href={`${oauthUrl}/api/v1/auth/github`}>
                   <BsGithub color="black" size={34} />
                   {/* <img className="w-[35px]" src="../../github.png" alt="" /> */}
                 </a>
-                <a href={`${oauthUrl}/api/v1/auth/facebook`}  >
+                <a href={`${oauthUrl}/api/v1/auth/facebook`}>
                   {/* className="p-1 rounded-full bg-white " */}
                   <BsFacebook color="black" size={34} />
                   {/* <img className="w-[35px]" src="../../fb.jpg" alt="" /> */}
                 </a>
-                <a href={`${oauthUrl}/api/v1/auth/linkedin`} >
+                <a href={`${oauthUrl}/api/v1/auth/linkedin`}>
                   <FaLinkedin color="black" size={34} />
                   {/* <img className="w-[35px]" src="../../link.png" alt="" /> */}
                 </a>

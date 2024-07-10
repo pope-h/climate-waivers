@@ -73,7 +73,7 @@ const DisaXBot = () => {
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] px-3 md:px-20 h-[100vh] ">
         <Leftsidebar />
         <div className="text-xl text-center md:pt-5 items-center ">
-          <div className="md:pb-3 px-[40%] md:pt-5 text-lg md:text-xl border-gray-500 lg:border-b-2 font-semibold flex flex-row items-center">
+          <div className="md:pb-3 px-[40%] md:pt-5 text-lg md:text-xl border-gray-500 md:border-b-2 font-semibold flex flex-row items-center">
             <BsRobot className="mr-2" size="22" />
             <h>WaverX</h>
           </div>
@@ -89,7 +89,7 @@ const DisaXBot = () => {
             />
           </div>
           <div className=" bg-graydark min-h-[200px] m-4 rounded-xl border-gray-500 border-[1px] h-[70vh]">
-            <button onClick={handleCreateChat} className="bg-transparent outline outline-2 outline-[#008080] rounded-xl p-2  w-[100%] ">
+            <button onClick={handleCreateChat} className="bg-transparent outline outline-2 outline-[#008080] rounded-xl p-2 mb-1 w-[100%] ">
               {" "}
               + New Chat
             </button>
