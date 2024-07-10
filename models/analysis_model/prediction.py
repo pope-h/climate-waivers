@@ -28,7 +28,7 @@ storm_model = joblib.load('analysis_model/model/Storm.pkl')
 # Set test Visual crossing weather API key
 os.environ["API_KEY"]="R9M7HHCH4EDADEUBCU3ZENKXN"
 
-def fetch_climate_data(location, start_date, end_date, disaster_type, api_key):
+def fetch_climate_data(location, start_date, end_date, api_key):
     """
     Fetching climate data at specified time to run inference
     """
@@ -61,7 +61,7 @@ def fetch_climate_data(location, start_date, end_date, disaster_type, api_key):
     # Filter specific columns
     filtered_df = data_df[["tempmax", "tempmin", "dew", "temp", "windspeedmin", "windspeedmax",
                           "windspeedmean", "winddir", "humidity", "conditions", "precip", "cloudcover", "sealevelpressure", "precipcover"]]
-    filtered_df.insert(0, "Disaster Type", disaster_type)
+    # filtered_df.insert(0, "Disaster Type", disaster_type)
     # Calculate relative humidty min, max and mean
     humidity_min = filtered_df["humidity"] - 2
     humidity_max = filtered_df["humidity"] + 2
@@ -88,8 +88,8 @@ def fetch_climate_data(location, start_date, end_date, disaster_type, api_key):
 
     return filtered_df
 
-def predict(location, start_date, end_date, disaster_type, api_key):
-    climate_data_df = fetch_climate_data(location, start_date, end_date, disaster_type, api_key)
+def predict(location, start_date, end_date, api_key):
+    climate_data_df = fetch_climate_data(location, start_date, end_date, api_key)
     if type(climate_data_df) == str:
         print("Prediction failed")
         return climate_data_df
@@ -97,7 +97,7 @@ def predict(location, start_date, end_date, disaster_type, api_key):
     # Encode  string values
     label_encoder = LabelEncoder()
     # climate_data_df['Encoded Magnitude Scale'] = label_encoder.fit_transform(climate_data_df['Magnitude Scale'])
-    climate_data_df['Encoded Disaster Type'] = label_encoder.fit_transform(climate_data_df['Disaster Type'])
+    # climate_data_df['Encoded Disaster Type'] = label_encoder.fit_transform(climate_data_df['Disaster Type'])
     climate_data_df['Encoded Weather Type'] = label_encoder.fit_transform(climate_data_df['Weather Type'])
 
     # Drop NaN values
@@ -126,12 +126,18 @@ def predict(location, start_date, end_date, disaster_type, api_key):
     #         converted_pred.append(mag)
     # else:
     #     converted_pred = predictions
-
-    print(predictions)
-    return predictions
+    
+    result = {}
+    
+    for disaster, prediction in predictions:
+        result[disaster] = {
+            "minimum": np.min(prediction),
+            "maximum": np.max(prediction)
+        }
+    return result
 
 # Example usage
 if __name__ == "__main__":
     # Location in Latitude,Longitude format
     # Dates in yyyy-mm-dd format
-    predict("80.41,85.9", start_date="2023-01-16", end_date="2023-01-17", disaster_type="Flood", api_key=os.getenv("API_KEY"))
+    predict("80.41,85.9", start_date="2023-01-16", end_date="2023-01-17", api_key=os.getenv("API_KEY"))

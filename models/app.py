@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Flask Application """
-
+import os
 from os import environ
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
@@ -19,12 +19,13 @@ cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 @app.route("/api/v1/analysis/inference", methods=['POST'], strict_slashes=False)
 def magnitude_analysis():
-    location = request.form['location']
-    start_date = request.form['startDate']
-    end_date = request.form['endDate']
-    disaster_type = request.form['disasterType']
-    key = request.form["apiKey"]
-    return jsonify(predict(location, start_date, end_date, disaster_type, key))
+    print("Here")
+    location = request.json['location']
+    start_date = request.json['startDate']
+    end_date = request.json['endDate']
+    # disaster_type = request.json['disasterType']
+    key = os.getenv("API_KEY")
+    return jsonify(predict(location, start_date, end_date, key))
 
 @app.route('/api/v1/recognition/inference', methods=['POST'])
 def disaster_recognition():
@@ -35,7 +36,7 @@ def disaster_recognition():
     image_path = f'/tmp/{image_file.filename}'
     image_file.save(image_path)
     
-    quantized = request.form.get('quantized', 'false').lower() == 'true'
+    quantized = request.json.get('quantized', 'false').lower() == 'true'
     
     result = inference(image_path, quantized)
     if result is None:
