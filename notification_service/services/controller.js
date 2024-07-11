@@ -1,5 +1,6 @@
 import mailDataValidator from "../validation/mail.js"
 import mailer from "./mailer.js"
+import Subscription from "./subscription.js"
 
 class Controller{
 
@@ -82,6 +83,13 @@ class Controller{
         } catch (error) {
             console.log(`mail error: ${error}`)
         }
+    }
+
+    async onboardUser(d){
+        const {email, city}= d
+        const sub = new Subscription(email, city)
+        // console.log(sub)
+        //now send email
     }
 
     
