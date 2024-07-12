@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import Modal from "./Modal";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
+import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
 const WalletContext = createContext();
 
@@ -9,41 +10,41 @@ export const useWallet = () => {
 };
 
 const Wallet = () => {
-  const [connected, setConnected] = useState(false);
+  const { isConnected } = useWeb3ModalAccount()
   const [walletAddress, setWalletAddress] = useState("");
   const [loading, setLoading] = useState(true);
   const [isModal, setIsModal] = useState(true);
 
-  async function connectWallet() {
-    if (!connected) {
-      try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const accounts = await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner(accounts[0]);
-        const _walletAddress = await signer.getAddress();
-        setConnected(true);
-        setWalletAddress(_walletAddress);
-        localStorage.setItem("walletAddress", _walletAddress);
-        setIsModal(false);
-      } catch (error) {
-        console.error("Error connecting wallet:", error);
-      }
-    } else {
-      setConnected(false);
-      setWalletAddress("");
-      localStorage.removeItem("walletAddress");
-      setIsModal(false);
-    }
-  }
+  // async function connectWallet() {
+  //   if (!connected) {
+  //     try {
+  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //       const accounts = await provider.send("eth_requestAccounts", []);
+  //       const signer = provider.getSigner(accounts[0]);
+  //       const _walletAddress = await signer.getAddress();
+  //       setConnected(true);
+  //       setWalletAddress(_walletAddress);
+  //       localStorage.setItem("walletAddress", _walletAddress);
+  //       setIsModal(false);
+  //     } catch (error) {
+  //       console.error("Error connecting wallet:", error);
+  //     }
+  //   } else {
+  //     setConnected(false);
+  //     setWalletAddress("");
+  //     localStorage.removeItem("walletAddress");
+  //     setIsModal(false);
+  //   }
+  // }
 
-  useEffect(() => {
-    const savedAddress = localStorage.getItem("walletAddress");
-    if (savedAddress) {
-      connectWallet();
-    } else {
-      setLoading(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedAddress = localStorage.getItem("walletAddress");
+  //   if (savedAddress) {
+  //     connectWallet();
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
 
   return (
@@ -58,7 +59,7 @@ const Wallet = () => {
               <h2 className="text-xl font-bold text-left">
                 Welcome to DisaXta Wallet 👋🏽
               </h2>
-              {connected ? (
+              {isConnected ? (
                 <p className="w-80 py-3 text-left">
                   Wallet address connected successfully. Jaiye lo jare
                 </p>
@@ -70,12 +71,13 @@ const Wallet = () => {
                   securely.
                 </p>
               )}
-              <button
+              {/* <button
                 className="bg-linear px-4 py-2 rounded-lg text-base mb-2 text-white self-end"
                 onClick={connectWallet}
               >
                 {connected ? "Disconnect Wallet" : "Connect Wallet"}
-              </button>
+              </button> */}
+              <w3m-button />
             </div>
           </Modal>
         )}

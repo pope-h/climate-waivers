@@ -17,8 +17,12 @@ import Loginpage from "./pages/LoginPage";
 import Forgotpasswordpage from "./pages/Forgotpasswordpage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Funds from './components/Funds';
 // import Web3 from "./dapp/Web3";
 import AuthRoute from "./HOC/AuthRoute";
+import { configWeb3Modal } from './connection';
+
+configWeb3Modal()
 
 function App() {
   return (
@@ -32,6 +36,7 @@ function App() {
             <Route path="/education" element={<AuthRoute element={<Education />} />} />
             <Route path="/happeningnow" element={<AuthRoute element={<Happeningnow />} />} />
             <Route path="/disaX" element={<AuthRoute element={<DisaX />} />} />
+            <Route path="/funds" element={<AuthRoute element={<Funds />} />} />
             <Route path="/profile" element={<AuthRoute element={<Profile />} />} />
             <Route path="/:postId/comments" element={<AuthRoute element={<Comment type="comment" />} />} />
             <Route path="/post/:postId/subcomments" element={<AuthRoute element={<Comment type="subcomment" />} />} />
