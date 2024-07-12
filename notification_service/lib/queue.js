@@ -5,6 +5,7 @@ export async function useQueue(channel_name, func){
     try{
     const conn = await amqp.connect(config.amqp.url)
     const channel = await conn.createChannel()
+    channel.deleteQueue(channel_name)
     channel.assertQueue(channel_name, {durable: false})
     .then(res=>{ console.log(`info: channel ${channel_name} asserted.`)})
     channel.consume(channel_name, async(msg)=>{
@@ -12,10 +13,11 @@ export async function useQueue(channel_name, func){
             const parsed = JSON.parse(msg.content)
             try{
                 await func(parsed)
+                channel.ack(msg)
             }catch(ex){
                 console.log(`useQueue callback function failed - ${ex}`)
+                channel.ack(msg)
             }
-            channel.ack(msg)
         }
     })
     }catch(err){

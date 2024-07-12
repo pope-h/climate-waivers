@@ -8,7 +8,7 @@ class Validator{
         body: Joi.string().required(),
         replyTo: Joi.string(),
         image: Joi.string(),
-        location: Joi.string()
+        location: Joi.string(),
     }).validate(obj)
     } 
 

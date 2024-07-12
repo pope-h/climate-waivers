@@ -1,25 +1,17 @@
 import mailDataValidator from "../validation/mail.js"
 import mailer from "./mailer.js"
+import Subscription from "./subscription.js"
 
 class Controller{
 
     async sendDisasterAlert(d){
-        const { emails, data} = d
+        const {data} = d
         if(!data)return
-        const validationErr = mailDataValidator.validateDisasterAlertEmailData(data).error
-        if(!emails?.length || validationErr){
-            return
-        }
-        for(let email of emails){
-            try{
-                await mailer.sendDisasterAlert(email, data)
-            }catch(ex){
-                console.log(ex)
-                continue;
-            }
-
-        }
-
+        const validationErr = mailDataValidator.validateDisasterAlertEmailData(data)?.error
+        if(validationErr)return
+        const dataList = await Subscription.find({city: data?.city?.toLowerCase()})
+        const mailData = {city: data.city, type: data.disasterType}
+        await Promise.all(dataList.map((d)=>{mailer.sendDisasterAlert(d.email, mailData)}))
     }
 
     async sendCustom(d){
@@ -82,6 +74,13 @@ class Controller{
         } catch (error) {
             console.log(`mail error: ${error}`)
         }
+    }
+
+    async onboardUser(d){
+        const {email, city}= d
+        const sub = new Subscription(email, city)
+        await sub
+        await mailer.sendOnboarding(email)
     }
 
     

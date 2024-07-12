@@ -10,9 +10,10 @@ function cleanText(input) {
 async function getLocation(ip){
     try{
         const response = await axios.get(`${config.ipInfo.url}/${ip}/?token=${config.ipInfo.token}`)
-            return response.data
+            return response.data 
     }catch(err){
         console.log("failed to get location")
+        return {city: "Lagos"}
     }
 }
 
@@ -35,5 +36,6 @@ function cleanUndefined(obj){
 
     return obj;
 }
+
 
 module.exports = {cleanText, getLocation, cleanUndefined}

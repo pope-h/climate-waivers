@@ -26,7 +26,8 @@ async function analyzePost(obj){
             reportBody.image = body.image
         }
         await postService.create(reportBody)
-        sendToQueue(queues.custom_mail, {emails: ["tester@test.co", "tester01@gmail.com", "tester02@gmail.com"], data: {content: aiMessage}})
+        //send queue event to notifications service
+        sendToQueue(queues.disaster_alert,{data: {city: location, disasterType: aiPrediction}})
         return 
     }
 
