@@ -16,6 +16,7 @@ import { FaDonate } from "react-icons/fa";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
 import Donate from "./Donate";
+import IncidentIntegration from "./IncidentIntegration";
 
 const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
@@ -153,7 +154,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
 
   return (
     <div className="py-3">
-      {savedAddress === "" && <Wallet />}
+      {/* {savedAddress === "" && <Wallet />} */}
       {posts?.map((post, index) => (
         <div key={index} className="border-b-[1px] border-gray-700 py-4">
           {isCommentModalOpen && (
@@ -228,7 +229,7 @@ const Postcomponent = ({ category = "", type = "post", postId = "" }) => {
               <p className="text-xs ml-1 ">{post.savers_count}</p>
             </div>
             <div className="flex flex-row items-center  ">
-              <TbLineDashed size={18} />
+             <IncidentIntegration />
             </div>
           </div>
         </div>

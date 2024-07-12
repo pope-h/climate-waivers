@@ -83,7 +83,7 @@ const Menu = () => {
           Plant Trees
         </NavLink>
         <NavLink
-          to={`/wallet`}
+          to={`/funds`}
           className={({ isActive }) =>
             isActive
               ? "flex items-center rounded-full p-2  hover:bg-linear "

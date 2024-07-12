@@ -15,6 +15,7 @@ import Wallet from "./Wallet";
 import { FaDonate } from "react-icons/fa";
 import Modal from "./Modal";
 import Createcomment from "./Createcomment";
+import IncidentIntegration from "./IncidentIntegration";
 
 const CommentPost = ({ category = "", type = "post", postId = "" }) => {
   const BACKENDURL = import.meta.env.VITE_APP_BACKEND_URL;
@@ -193,7 +194,7 @@ const CommentPost = ({ category = "", type = "post", postId = "" }) => {
             <p className="text-xs ml-1 ">{post?.savers_count}</p>
           </div>
           <div className="flex flex-row items-center  ">
-            <TbLineDashed size={18} />
+            <IncidentIntegration />
           </div>
         </div>
       </div>
