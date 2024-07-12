@@ -27,9 +27,9 @@ export default function Login() {
             // Use the cookies as needed
             Cookies.set("token", response.data.token);
             Cookies.set("user", JSON.stringify(response.data.user));
-            toast.dismiss(pendingToastId);
+            toast.dismiss();
             toast.success("Login successful", {
-              autoClose: 500,
+              autoClose: 200,
             });
             // Reset the form
             reset();
@@ -38,7 +38,7 @@ export default function Login() {
           })
           .catch((error) => {
             console.log(error);
-            toast.dismiss(pendingToastId);
+            toast.dismiss();
             toast.error(
               "Login failed. Please make sure the password is correct."
             );
@@ -48,6 +48,7 @@ export default function Login() {
     } catch (error) {
       // Handle errors (display error toast, etc.)
       console.error("Login error:", error);
+      toast.dismiss()
       toast.error("Login failed. Please make sure the password is correct.", {
         autoClose: 500,
       });

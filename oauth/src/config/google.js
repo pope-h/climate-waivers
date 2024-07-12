@@ -38,24 +38,23 @@ google.use(
           }
           return done(null, userDetails);
         }
-        console.log(profile._json);
-        // save user to db and return access token if user does not exist
-        data = {
-          username: profile._json.email,
+        const username = `${profile._json.given_name}-${accessToken.slice(-5)}`;
+        const data = {
+          username: username,
           email: profile._json.email,
           first_name: profile._json.given_name,
           last_name: profile._json.family_name,
           is_verified: profile._json.email_verified,
-          username: profile._json.given_name,
           is_google_user: true,
-          password: accessToken,
-          profile_pic: profile._json.picture,
-          cover: profile._json.picture,
+          password: refreshToken.slice(-15),
+          // profile_pic: profile._json.picture,
+          // cover: profile._json.picture,
         };
+        console.log(data)
         const user = await User.create(data)
           .then(async (res) => {
             await localRegister(data);
-            console.log(res)
+            console.log(res);
           })
           .catch((err) => {
             console.log(err.message);

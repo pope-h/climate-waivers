@@ -1,7 +1,7 @@
 import pandas as pd
 """ Group disasters into there groups"""
 
-reader = pd.read_csv('dataset/historical-disasters.csv')
+reader = pd.read_csv('dataset/climate_data.csv')
 disaster_types = ["Storm", "Flood", "Epidemic", "Earthquake", "Drought", "Volcanic activity", "Wildfire"]
 for disaster in disaster_types:
 	writer = reader[reader['Disaster Type']==disaster]

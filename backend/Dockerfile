@@ -10,6 +10,7 @@ ARG MYSQL_HOST
 ENV MYSQL_HOST=$MYSQL_HOST
 
 
+
 # Set work directory
 WORKDIR /backend
 

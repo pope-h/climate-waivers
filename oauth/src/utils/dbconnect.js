@@ -8,6 +8,9 @@ const sequelize = new Sequelize(
   {
     host: process.env.MYSQL_HOST,
     dialect: "mysql",
+    define: {
+      underscored: true,
+    },
     logging: (msg) => {
       if (msg.includes("error")) {
         console.error(msg);

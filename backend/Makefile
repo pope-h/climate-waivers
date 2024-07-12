@@ -1,4 +1,4 @@
-LOCAL_WEB_CONTAINER_NAME=backend.web
+LOCAL_WEB_CONTAINER_NAME=backend
 LOCAL_DB_CONTAINER_NAME=backend.db
 LOCAL_DOCKER_OPTIONS= -f docker-compose.yml
 
@@ -19,7 +19,7 @@ collectstatic:
 	docker exec -it $(LOCAL_WEB_CONTAINER_NAME) python manage.py collectstatic --noinput
 
 build:
-	docker-compose $(LOCAL_DOCKER_OPTIONS) build
+	docker compose $(LOCAL_DOCKER_OPTIONS) build
 
 rebuild:
 	docker-compose $(LOCAL_DOCKER_OPTIONS) build --force-recreate --no-deps

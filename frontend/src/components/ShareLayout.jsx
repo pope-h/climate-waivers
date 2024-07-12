@@ -16,9 +16,11 @@ const SharedLayout = () => {
         <Topbar />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] px-2 md:px-10 min-h-screen">
-        <Leftsidebar className="fixed"/>
+        <Leftsidebar />
         {/* <Mainfeed/> */}
-        <Outlet />
+        <div className="max-h-screen overflow-auto" >
+        <Outlet/>
+        </div>
         <Rightsidebar />
       </div>
     </div>

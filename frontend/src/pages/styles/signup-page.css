@@ -11,10 +11,11 @@
     height: 100vh;
 }
 
-.signup .banner h1{
+.signup .banner h2{
     color: white !important;
     font-size: 48px;
     font-weight: 650;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .signup .banner img{

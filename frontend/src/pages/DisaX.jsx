@@ -10,11 +10,11 @@ import { getUser } from "../utils/factory";
 import axios from "axios";
 import { watchCollection } from "../services/firebase.service";
 
-const backend_url = import.meta.env.VITE_APP_BACKEND_URL || "http://localhost:3004/api/v1"
+const chatbot = `${import.meta.env.VITE_APP_CHATBOT_URL}/api/v1` || "http://localhost:3004/api/v1"
 
 const DisaXBot = () => {
   const [chats, setChats] = useState([])
-  const [current, setCurrent] = useState()
+  const [current, setCurrent] = useState("")
   const [messages, setMessages] = useState()
 
 
@@ -37,7 +37,7 @@ const DisaXBot = () => {
   const messageBodyRef = useRef()
 
   async function fetchChats(){
-    const url = `${backend_url}/chats?userId=${getUser()?.id}`
+    const url = `${chatbot}/chats?userId=${getUser()?.id}`
     return axios.get(url)
   }
 
@@ -48,7 +48,7 @@ const DisaXBot = () => {
   async function handleCreateChat(){
     const userId = getUser()?.id
     console.log({userId})
-    const res = await axios.post(`${backend_url}/chats`, {userId})
+    const res = await axios.post(`${chatbot}/chats`, {userId})
     if(res.data){
         setChats([res.data, ...chats])
     }
@@ -57,7 +57,7 @@ const DisaXBot = () => {
   async function handlePostMessage(body){
     if(!body)return
     try{
-    const url = `${backend_url}/chats/${current}`
+    const url = `${chatbot}/chats/${current}`
     const res = await axios.post(url, {body, userId: getUser()?.id})
     }catch(err){
       console.log({err})
@@ -73,27 +73,27 @@ const DisaXBot = () => {
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] px-3 md:px-20 h-[100vh] ">
         <Leftsidebar />
         <div className="text-xl text-center md:pt-5 items-center ">
-          <div className="md:pb-3 px-[40%] md:pt-5 text-lg md:text-xl border-gray-500 border-b-2 font-semibold flex flex-row items-center">
-            <BsRobot className="mr-2" />
+          <div className="md:pb-3 px-[40%] md:pt-5 text-lg md:text-xl border-gray-500 md:border-b-2 font-semibold flex flex-row items-center">
+            <BsRobot className="mr-2" size="22" />
             <h>WaverX</h>
           </div>
           {current && <Chatcomponent handlePostMessage={handlePostMessage} messages={messages} />}
         </div>
-        <div className=" border-l-[1px] border-gray-500 hidden md:block pt-5 ">
+        <div className=" border-l-[1px] border-gray-700 hidden md:block pt-5 ">
           {/* Search btn */}
-          <div className="  md:pl-6 ">
+          <div className=" border-gray-500 md:pl-6 ">
             <input
-              className="bg-graylight p-1 ml-2 md:p-2 border-2 border-graydark rounded-full text-graydark w-[80%]"
+              className="bg-graylight p-1 ml-2 md:p-2 rounded-full text-black w-[80%]"
               type="text"
               placeholder="🔍Search"
             />
           </div>
-          <div className="chats-wrapper bg-graydark min-h-[200px] m-4 rounded-xl ">
-            <button onClick={handleCreateChat} className="bg-transparent outline outline-1 outline-[#008080] rounded-xl p-2  w-[100%] ">
+          <div className=" bg-graydark min-h-[200px] m-4 rounded-xl border-gray-500 border-[1px] h-[70vh]">
+            <button onClick={handleCreateChat} className="bg-transparent outline outline-2 outline-[#008080] rounded-xl p-2 mb-1 w-[100%] ">
               {" "}
               + New Chat
             </button>
-            <ul className="chat-list">
+            <ul className="mt-1">
               {
                 chats.map((c)=>{
                   return <ChatCard key={c.id} handleClick={handleChatCardClicked} id={c.id} createdAt={c.createdAt} current={current} />

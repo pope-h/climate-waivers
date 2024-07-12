@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react'
 import Postcomponent from './Postcomponent'
-import { watchCollection } from '../services/firebase.service'
-import { DisaxPostCard } from './DisaxPostCard'
-
-import "./styles/happeningnow.css"
+import { useState, useEffect } from 'react'
+import { watchCollection } from "../services/firebase.service";
 
 const Happeningnow = () => {
   const [posts, setPosts ] = useState([])
@@ -16,16 +13,9 @@ const Happeningnow = () => {
     })
   }, [])
   return (
-    <div className='text-xl text-center border-b-2   pt-1 md:pt-5 '>
-        <h2 className='pb-1 md:pb-3 text-lg md:text-xl border-gray-500 border-b-2 font-semibold '>Happening Now</h2>
-        <div className="disaster-posts-wrapper overflow-auto">
-          {
-            posts.map(p=>{
-            return <DisaxPostCard key={p.remoteId} post={p} />
-          })
-          }
-        </div>
-
+    <div className='text-xl text-center   pt-1 md:pt-5 '>
+        <h2 className='pb-1 md:pb-3 text-lg md:text-xl border-gray-500 border-b-2 font-semibold '>Disasters Reports</h2>
+        <Postcomponent  category="happening"/>
     </div>
   )
 }
