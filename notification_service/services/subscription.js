@@ -7,7 +7,7 @@ class Subscription{
         this.collection = collectionName
         firebaseService.createOne(collection, {email, city: city?.toLowerCase()})
     }
-    async find(obj={}){
+    static async find(obj={}){
         const docs = await firebaseService.getAll(collectionName, obj)
         return docs.docs.map(d=>({...d.data(), remoteId: d.id}))
     }

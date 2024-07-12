@@ -1,11 +1,9 @@
-// const OpenAI = require("openai")
+
 const config = require("../config/config")
 const postCategories = require("../constants/post_categories")
 const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory} = require("@google/generative-ai");
 const { cleanText } = require("../utils/factory");
 
-
-// const openAI = new OpenAI(config.openai)
 
 class AI{
     constructor(){

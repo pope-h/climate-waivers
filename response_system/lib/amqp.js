@@ -24,11 +24,17 @@ const useQueue = async function(queueName, callback){
 }
 
 const sendToQueue = async function(queueName, data){
+    try{
+
     const conn = await amqp.connect(config.amqp.url)
         const channel = await conn.createChannel()
         channel.assertQueue(queueName, {durable: false})
         const str = JSON.stringify(data)
         channel.sendToQueue(queueName, Buffer.from(str))
+    }catch(err){
+        console.log('failed to send to queue...')
+        console.log({err})
+    }
 }
 
 module.exports = { useQueue, sendToQueue }

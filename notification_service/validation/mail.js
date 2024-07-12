@@ -8,7 +8,7 @@ class MailValidation{
     }
     validateDisasterAlertEmailData(data){
         return Joi.object({
-            location: Joi.string().required(),
+            city: Joi.string().required(),
             disasterType: Joi.string().required()
         }).validate(data)
     }

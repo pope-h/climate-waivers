@@ -16,9 +16,13 @@ const createPost = catchAsyncErrors(async(req, res)=>{
     if(!body.location){
         body.location = (await getLocation(req.socket.remoteAddress))?.city
     }
+    if(body.replyTo){
+        const target = await postService.getById(body.replyTo)
+        if(!target)return res.status(404).json({message: "post not found"})
+    }
     const post = await postService.create({...body})
     if(!post)return res.status(400).json("failed to create post.")
-    sendToQueue(queues.analyze_post, post)
+    !body.replyTo && sendToQueue(queues.analyze_post, post)
     return res.status(201).json(post)
 })
 

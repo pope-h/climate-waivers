@@ -5,6 +5,9 @@ const collectionName = "Posts"
 class Post{
     async create(obj){
         const r = await fb.createOne(collectionName, {...obj, likedBy: [], postedAt: Date.now()})
+        if(obj.replyTo){
+            await this.addComment(obj.replyTo)
+        }
         return {id: r.id}
     }
 
@@ -34,7 +37,13 @@ class Post{
 
     async like(id, userId){
         return await fb.updateOne(collectionName, id, function(postObject){
-            return {likedBy: [...postObject?.likedBy, userId.toString()]}
+            return postObject?.likedBy?.includes(userId)?{likedBy: !postObject?.likedBy?[userId]:postObject.likedBy.filter(uid=>uid !== userId.toString())}: {likedBy: [...postObject?.likedBy, userId.toString()]}
+        })
+    }
+
+    async addComment(id){
+        return await fb.updateOne(collectionName, id, function(postObject){
+            return {commentsCount: postObject.commentsCount? parseInt(postObject.commentsCount) + 1: 1}
         })
     }
 }
